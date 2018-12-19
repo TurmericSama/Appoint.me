@@ -1,0 +1,11 @@
+body{
+    background-color: grey;
+}
+
+.navbar{
+    border-bottom: solid 3px #33691E;   
+}
+
+.hello{
+    color:#BDBDBD;
+}
