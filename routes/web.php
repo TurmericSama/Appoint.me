@@ -12,13 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect( "/login" );
 });
 
-Route::get('/dash', 'PagesController@Dash');
+Route::get('/dash', [
+	"middleware" => "auth",
+	"uses" => 'PagesController@Dash'
+]);
 Route::get('/appointments', 'PagesController@Events');
 Route::get('/user','PagesController@User');
 Route::get('/login', 'PagesController@Login');
+Route::post('/login', 'PagesController@LoginPost');
 Route::get('/appointments/add', 'PagesController@Add');
 Route::get('/signup', 'PagesController@SignUp');
 Route::get('/logout', 'PagesController@Logout');

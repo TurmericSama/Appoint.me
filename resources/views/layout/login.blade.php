@@ -9,6 +9,9 @@
 <script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
+@if( $error )    
+    <script>alert( "{{ $error }}" )</script>
+@endif
     <title>Appointments</title>
 </head>
 <body>
@@ -18,12 +21,13 @@
             <span class="navbar-toggler-icon"></span>
         </button>            
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0" action="#" method="POST">
-                <input class="form-control mr-sm-2" type="text" placeholder="Username" id="uname" name="uname" required>
-                <input class="form-control mr-sm-2" type="password" placeholder="Password" id="pass" name="pass" required>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="login">Login</button>
-                <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" href="/signup">Signup</button>
+            <form class="form-inline my-2 my-lg-0" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input class="form-control mr-sm-2" type="text" placeholder="Username" id="uname" name="username" required>
+                <input class="form-control mr-sm-2" type="password" placeholder="Password" id="pass" name="password" required>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="login">Login</button>                
             </form>
+            <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/signup'">Signup</button>
         </div>
     </nav>
     <div class="container-fluid">
