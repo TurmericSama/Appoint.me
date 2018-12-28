@@ -24,5 +24,8 @@ Route::get('/user','PagesController@User');
 Route::get('/login', 'PagesController@Login');
 Route::post('/login', 'PagesController@LoginPost');
 Route::get('/appointments/add', 'PagesController@Add');
+
 Route::get('/signup', 'PagesController@SignUp');
+Route::post( "/signup", "PagesController@SignUpPost" );
+
 Route::get('/logout', 'PagesController@Logout');

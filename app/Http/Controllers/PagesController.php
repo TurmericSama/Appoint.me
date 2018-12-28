@@ -56,8 +56,46 @@ class PagesController extends Controller
         return view('pages.Add');
     }
 
-    public function SignUp(){
-        return view('pages.SignUp');
+    public function SignUp( Request $req ) {
+        $success = 0;
+        if( $req->success == 1 )
+            $success = 1;
+        return view('pages.SignUp', [
+            "success" => $success
+        ]);
+    }
+
+    public function SignUpPost( Request $req ) {
+        $uname = addslashes( $req->username );
+        $passwd = addslashes( $req->password );
+        $email = addslashes( $req->email );
+        $fname = addslashes( $req->fname );
+        $mname = addslashes( $req->mname );
+        $lname = addslashes( $req->lname );
+        $fb_id = addslashes( $req->facebook_id );
+
+        $q = "
+            insert into users(
+                uname,
+                password,
+                email,
+                fname,
+                mname,
+                lname,
+                facebook_id
+            ) values (
+                \"$uname\",
+                \"$passwd\",
+                \"$email\",
+                \"$fname\",
+                \"$mname\",
+                \"$lname\",
+                \"$fb_id\"
+            )
+        ";
+
+        DB::insert( $q );
+        return redirect( "/signup?success=1" );
     }
 
     public function Logout( Request $req ) {
