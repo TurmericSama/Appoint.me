@@ -84,16 +84,14 @@ class PagesController extends Controller
                 email,
                 fname,
                 mname,
-                lname,
-                facebook_id
+                lname
             ) values (
                 \"$uname\",
                 \"$passwd\",
                 \"$email\",
                 \"$fname\",
                 \"$mname\",
-                \"$lname\",
-                \"$fb_id\"
+                \"$lname\"
             )
         ";
 
