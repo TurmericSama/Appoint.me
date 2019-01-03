@@ -14,6 +14,7 @@
                 	<th scope="col">Location</th>
                 	<th scope="col">Date</th>
                 	<th scope="col">Repeat</th>
+                	<th scope="col">Action</th>
                 	@foreach( $data as $row )
                 		<tr>
                 			<td>{{ $row->name }}</td>
@@ -21,6 +22,7 @@
                 			<td>{{ $row->location }}</td>
                 			<td>{{ $row->date }}</td>
                 			<td>{{ $row->repeat }}</td>
+                			<td></td>
                 		</tr>
                 	@endforeach
                 </table>

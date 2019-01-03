@@ -74,7 +74,7 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
-        $date = addslashes( $req->date );
+        $date = addslashes( $req->date ). " " .addslashes( $req->time );
         $repeat = addslashes( $req->repeat );
 
         $query = "
