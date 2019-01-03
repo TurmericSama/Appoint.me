@@ -110,6 +110,34 @@ class PagesController extends Controller
         ]);
     }
 
+    public function EditPost( Request $req ) {
+        $id = addslashes( $req->id );
+        $ename = addslashes( $req->ename );
+        $edesc = addslashes( $req->edesc );
+        $elocation = addslashes( $req->elocation );
+        $date = addslashes( $req->date );
+        $repeat = addslashes( $req->repeat );
+
+        $query = "
+            update appointments
+                set
+                    `name`=\"$ename\",
+                    `desc`=\"$edesc\",
+                    `location`=\"$elocation\",
+                    `date`=\"$date\",
+                    `repeat`=\"$repeat\"
+                where
+                    id=$id
+        ";
+
+        DB::update( $query );
+        return redirect( "/appointments/edit?id=". $id );
+    }
+
+    public function Delete( Request $req ) {
+        
+    }
+
     public function SignUp( Request $req ) {
         $success = 0;
         if( $req->success == 1 )

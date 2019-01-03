@@ -23,6 +23,7 @@ Route::post('/login', 'PagesController@LoginPost');
 Route::get('/appointments/add', 'PagesController@Add');
 Route::post('/appointments/add', 'PagesController@AddPost');
 Route::get('/appointments/edit', 'PagesController@Edit');
+Route::post('/appointments/edit', 'PagesController@EditPost');
 
 Route::get('/signup', 'PagesController@SignUp');
 Route::post( "/signup", "PagesController@SignUpPost" );
