@@ -100,6 +100,16 @@ class PagesController extends Controller
         return redirect( "/appointments/add?success=1" );
     }
 
+    public function Edit( Request $req ) {
+        $id = addslashes( $req->id );
+        $query = "select * from appointments where id=$id";
+
+        $data = DB::select( $query )[0];
+        return view( "pages.Edit", [
+            "data" => $data
+        ]);
+    }
+
     public function SignUp( Request $req ) {
         $success = 0;
         if( $req->success == 1 )
