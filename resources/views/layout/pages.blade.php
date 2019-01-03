@@ -12,6 +12,7 @@
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
+<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 </head>
 <body>
     
@@ -53,3 +54,18 @@
     @yield('content')
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $('#options').hide();
+        $("input[type='radio']").on("change", function() {
+        // Regardless of WHICH radio was clicked, is the
+        //  showSelect radio active?
+        if ($("#radio1").is(':checked')) {
+            $('#options').hide();
+            } else {
+                $('#options').show();
+            }
+        })
+    });    
+</script>

@@ -26,24 +26,44 @@
                                 </div>
                                     <input type="text" class="form-control" placeholder="Ex. Camille and Ed's Wedding Anniversary">
                             </div>
+                            <div class="input-group mb-3">
+                                    <input type="date" name="date" id="date">
+                                </div>
                         <legend class="ml-0 text-light">Repeat</legend>
-                        <div>
+                        <div class="mb-3">
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
+                                <input class="form-check-input" type="radio" name="repeat" id="radio1" value="option1" checked>
+                                <label class="form-check-label" for="radio1">
                                   None
                                 </label>
                             </div>
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                <label class="form-check-label" for="exampleRadios2">
+                                <input class="form-check-input" type="radio" name="repeat" id="radio2" value="option2">
+                                <label class="form-check-label" for="radio2">
                                     On
                                 </label>
                             </div>
                         </div>
-                        <div class="input-group mb-3">
-                            <input type="datetime" name="date" id="date">
-                        </div>
+                        <div id="options" class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                    Daily
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                        Weekly
+                                        </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                        Monthly
+                                        </label>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
