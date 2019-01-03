@@ -15,10 +15,7 @@ Route::get('/', function () {
     return redirect( "/login" );
 });
 
-Route::get('/dash', [
-	"middleware" => "auth",
-	"uses" => 'PagesController@Dash'
-]);
+Route::get('/dash', 'PagesController@Dash' );
 Route::get('/appointments', 'PagesController@Events');
 Route::get('/user','PagesController@User');
 Route::get('/login', 'PagesController@Login');

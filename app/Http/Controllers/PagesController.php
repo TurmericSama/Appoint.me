@@ -7,6 +7,10 @@ use DB;
 
 class PagesController extends Controller
 {
+    public function __construct() {
+        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
+    }
+
     public function Dash(){
         return view('pages.Dash');
     }
