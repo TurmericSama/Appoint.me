@@ -16,7 +16,11 @@ class PagesController extends Controller
     }
 
     public function Events(){
-        return view('pages.Appointments');
+        $data = DB::select( "select * from appointments" );
+
+        return view('pages.Appointments', [
+            "data" => $data
+        ]);
     }
 
     public function User(){
@@ -56,8 +60,42 @@ class PagesController extends Controller
         }
     }
 
-    public function Add(){
-        return view('pages.Add');
+    public function Add( Request $req ) {
+        $success = "";
+
+        if( $req->success == 1 )
+            $success = "Appointment added successfully";
+        return view('pages.Add', [
+            "success" => $success
+        ]);
+    }
+
+    public function AddPost( Request $req ) {
+        $ename = addslashes( $req->ename );
+        $edesc = addslashes( $req->edesc );
+        $elocation = addslashes( $req->elocation );
+        $date = addslashes( $req->date );
+        $repeat = addslashes( $req->repeat );
+
+        $query = "
+            insert into
+                appointments(
+                    name,
+                    desc,
+                    location,
+                    date,
+                    repeat
+                ) values(
+                    \"$ename\",
+                    \"$edesc\",
+                    \"$elocation\",
+                    \"$date\",
+                    \"$repeat\"
+                )
+        ";
+
+        DB::insert( $query );
+        return redirect( "/appointments/add?success=1" );
     }
 
     public function SignUp( Request $req ) {
