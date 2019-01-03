@@ -137,7 +137,11 @@ class PagesController extends Controller
     }
 
     public function Delete( Request $req ) {
+        $id = addslashes( $req->id );
 
+        $query = "delete from appointments where id=$id";
+        DB::delete( $query );
+        return redirect( "/appointments" );
     }
 
     public function SignUp( Request $req ) {
