@@ -58,22 +58,20 @@
 <script>
     $(document).ready(function () {
         $('#options').hide();
-        $("input[type='radio']").on("change", function() {
-        // Regardless of WHICH radio was clicked, is the
-        //  showSelect radio active?
-        if ($("#radio1").is(':checked')) {
-            $('#options').hide();
+        $("input[type='radio']").on("change", function() {        
+            if ($("#radio1").is(':checked')) {
+                $('#options').hide();
             } else {
-                $('#options').show();
+                 $('#options').show();
             }
-        });
-
-        $('.btn-danger').click(function(){
-            if( confirm('Are you sure you want to delete this Event')){
-                window.location="";
-            } else{
-                alert('Operation canceled');
-            }
-        });
+        })
     });
+
+    function delrec( id ) {
+        if( confirm('Are you sure you want to delete this Event') ) {
+            window.location = "/appointments/delete?id=" + id
+        } else{
+            alert('Operation canceled');
+        }
+    }
 </script>
