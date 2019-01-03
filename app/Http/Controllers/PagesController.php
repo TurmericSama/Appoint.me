@@ -76,7 +76,6 @@ class PagesController extends Controller
         $fname = addslashes( $req->fname );
         $mname = addslashes( $req->mname );
         $lname = addslashes( $req->lname );
-        $fb_id = addslashes( $req->facebook_id );
 
         $q = "
             insert into users(
