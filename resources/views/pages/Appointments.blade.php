@@ -8,12 +8,12 @@
                 <div>
                     <h3 class="text-light mt-2">Appointments</h3>
                 </div>
-                <table>
-                	<th>Name</th>
-                	<th>Description</th>
-                	<th>Location</th>
-                	<th>Date</th>
-                	<th>Repeat</th>
+                <table class="table table-bordeless">
+                	<th scope="col">Name</th>
+                	<th scope="col">Description</th>
+                	<th scope="col">Location</th>
+                	<th scope="col">Date</th>
+                	<th scope="col">Repeat</th>
                 	@foreach( $data as $row )
                 		<tr>
                 			<td>{{ $row->name }}</td>
