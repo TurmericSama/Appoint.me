@@ -117,7 +117,9 @@ class PagesController extends Controller
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
         $date = addslashes( $req->date );
-        $repeat = addslashes( $req->repeat );
+        $repeat = "None";
+        if( $req->repeat != "None" )
+            $repeat = addslashes( $req->repeatwhen );
 
         $query = "
             update appointments
@@ -132,11 +134,11 @@ class PagesController extends Controller
         ";
 
         DB::update( $query );
-        return redirect( "/appointments/edit?id=". $id );
+        return redirect( "/appointments" );
     }
 
     public function Delete( Request $req ) {
-        
+
     }
 
     public function SignUp( Request $req ) {
