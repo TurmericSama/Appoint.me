@@ -75,7 +75,9 @@ class PagesController extends Controller
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
         $date = addslashes( $req->date ). " " .addslashes( $req->time );
-        $repeat = addslashes( $req->repeat );
+        $repeat = "None";
+        if( $req->repeatwhen )
+            $repeat = $req->repeatwhen;
 
         $query = "
             insert into
