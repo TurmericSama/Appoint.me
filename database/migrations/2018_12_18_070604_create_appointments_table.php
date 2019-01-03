@@ -18,9 +18,9 @@ class CreateAppointmentsTable extends Migration
             $table->string('name');
             $table->mediumtext('desc');
             $table->mediumtext('location');
-            $table->unsignedInteger('person');
             $table->dateTime('date');
             $table->timestamps();
+            $table->string('repeat');
         });
     }
 

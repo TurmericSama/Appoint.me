@@ -18,10 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('uname');
             $table->string('email')->unique();
             $table->string('password');
-	    $table->string("fname");
-	    $table->string("mname");
-	    $table->string("lname");
-	    $table->string("facebook_id");
+	        $table->string("fname");
+	        $table->string("mname");
+	        $table->string("lname");
+            $table->string("facebook_id");
+            $table->unsignedinteger('event_id');
             $table->rememberToken();
             $table->timestamps();
         });
