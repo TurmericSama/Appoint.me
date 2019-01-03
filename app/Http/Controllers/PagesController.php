@@ -80,11 +80,11 @@ class PagesController extends Controller
         $query = "
             insert into
                 appointments(
-                    name,
-                    desc,
-                    location,
-                    date,
-                    repeat
+                    `name`,
+                    `desc`,
+                    `location`,
+                    `date`,
+                    `repeat`
                 ) values(
                     \"$ename\",
                     \"$edesc\",
