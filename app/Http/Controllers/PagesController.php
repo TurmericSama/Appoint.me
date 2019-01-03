@@ -7,6 +7,10 @@ use DB;
 
 class PagesController extends Controller
 {
+    public function __construct() {
+        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
+    }
+
     public function Dash(){
         return view('pages.Dash');
     }
@@ -81,16 +85,14 @@ class PagesController extends Controller
                 email,
                 fname,
                 mname,
-                lname,
-                facebook_id
+                lname
             ) values (
                 \"$uname\",
                 \"$passwd\",
                 \"$email\",
                 \"$fname\",
                 \"$mname\",
-                \"$lname\",
-                \"$fb_id\"
+                \"$lname\"
             )
         ";
 
