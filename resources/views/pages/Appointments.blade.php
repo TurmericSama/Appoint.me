@@ -22,7 +22,11 @@
                 			<td>{{ $row->location }}</td>
                 			<td>{{ $row->date }}</td>
                 			<td>{{ $row->repeat }}</td>
+<<<<<<< HEAD
                 			<td><a href="" class="btn btn-warning btn-sm">Edit</a><div class="divider"></div><a href="" class="btn btn-danger btn-sm">Delete</a></td>
+=======
+                			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <a href="" class="btn btn-danger btn-sm">Delete</a></td>
+>>>>>>> dc32c8ebd2bb0c6b6a726d53324deb9c1dc54066
                 		</tr>
                 	@endforeach
                 </table>
