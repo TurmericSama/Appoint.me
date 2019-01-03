@@ -29,10 +29,10 @@
                                     <input type="text" class="form-control" placeholder="Ex. Camille and Ed's Wedding Anniversary" name="elocation">
                             </div>
                             <div class="input-group mb-3">
-                                    <input type="date" name="date" id="date">
+                                    <input type="date" name="date" id="date" class="form-control">
                                 </div>
                                 <div class="input-group mb-3">
-                                        <input type="time" name="time" id="time">
+                                        <input type="time" name="time" id="time" class="form-control">
                                     </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
@@ -51,19 +51,19 @@
                         </div>
                         <div id="options" class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="repeat" id="exampleRadios1" value="Daily" checked>
+                                    <input class="form-check-input" type="radio" name="repeatwhen" id="exampleRadios1" value="Daily" checked>
                                     <label class="form-check-label" for="exampleRadios1">
                                     Daily
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="repeat" id="exampleRadios2" value="Weekly">
+                                    <input class="form-check-input" type="radio" name="repeatwhen" id="exampleRadios2" value="Weekly">
                                         <label class="form-check-label" for="exampleRadios2">
                                         Weekly
                                         </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="repeat" id="exampleRadios2" value="Monthly">
+                                    <input class="form-check-input" type="radio" name="repeatwhen" id="exampleRadios2" value="Monthly">
                                         <label class="form-check-label" for="exampleRadios2">
                                         Monthly
                                         </label>
