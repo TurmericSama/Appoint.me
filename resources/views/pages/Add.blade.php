@@ -31,6 +31,9 @@
                             <div class="input-group mb-3">
                                     <input type="date" name="date" id="date">
                                 </div>
+                                <div class="input-group mb-3">
+                                        <input type="time" name="time" id="time">
+                                    </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
                             <div class="form-check-inline">
