@@ -8,7 +8,7 @@
                 <div>
                     <h3 class="text-light mt-2">Appointments</h3>
                 </div>
-                <table class="table table-bordeless table-light table-responsive">
+                <table class="table table-bordeless table-light">
                 	<th scope="col">Name</th>
                 	<th scope="col">Description</th>
                 	<th scope="col">Location</th>

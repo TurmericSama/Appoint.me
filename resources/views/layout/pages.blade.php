@@ -66,6 +66,14 @@
             } else {
                 $('#options').show();
             }
-        })
-    });    
+        });
+
+        $('.btn-danger').click(function(){
+            if( confirm('Are you sure you want to delete this Event')){
+                window.location="";
+            } else{
+                alert('Operation canceled');
+            }
+        });
+    });
 </script>
