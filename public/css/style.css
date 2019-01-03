@@ -9,3 +9,10 @@ body{
 .hello{
     color:#BDBDBD;
 }
+
+.divider{
+    height: 1rem;
+    width: 0;
+    border-left: solid 1px #e9ecef;
+    overflow: hidden;
+}

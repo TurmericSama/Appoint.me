@@ -4,11 +4,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-lg-9">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-11 col-sm-12 col-lg-9">
                 <div class="mt-2">
                     <form method="POST" action="/appointments/add">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <h3 class="text-light ml-3">Add an Appointment</h3>
+                    <h3 class="text-light ml-3 mb-3">Add an Appointment</h3>
                     <div>
                             <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -29,10 +32,16 @@
                                     <input type="text" class="form-control" placeholder="Ex. Camille and Ed's Wedding Anniversary" name="elocation">
                             </div>
                             <div class="input-group mb-3">
-                                    <input type="date" name="date" id="date" class="form-control">
+                                    <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
+                                        </div>
+                                    <input type="date" name="date" id="date" class="form-control col-2">
                                 </div>
                                 <div class="input-group mb-3">
-                                        <input type="time" name="time" id="time" class="form-control">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
+                                            </div>
+                                        <input type="time" name="time" id="time" class="form-control col-2">
                                     </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
