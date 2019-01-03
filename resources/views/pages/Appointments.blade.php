@@ -8,7 +8,7 @@
                 <div>
                     <h3 class="text-light mt-2">Appointments</h3>
                 </div>
-                <table class="table table-bordeless">
+                <table class="table table-bordeless table-light table-responsive">
                 	<th scope="col">Name</th>
                 	<th scope="col">Description</th>
                 	<th scope="col">Location</th>
@@ -22,7 +22,7 @@
                 			<td>{{ $row->location }}</td>
                 			<td>{{ $row->date }}</td>
                 			<td>{{ $row->repeat }}</td>
-                			<td><a href="" class="btn btn-warning btn-sm">Edit</a>  <a href="" class="btn btn-danger btn-sm">Delete</a></td>
+                			<td><a href="" class="btn btn-warning btn-sm">Edit</a><div class="divider"></div><a href="" class="btn btn-danger btn-sm">Delete</a></td>
                 		</tr>
                 	@endforeach
                 </table>
