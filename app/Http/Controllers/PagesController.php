@@ -12,10 +12,6 @@ class PagesController extends Controller
     }
 
     public function Dash(){
-<<<<<<< HEAD
-
-        return view('pages.Dash');
-=======
         $query = "
             select
                 a.*,
@@ -40,7 +36,6 @@ class PagesController extends Controller
         ";
         $data = DB::select( $query );
         return view('pages.Dash', ["data" => $data ]);
->>>>>>> 4f341d2d9058e8458b5cd9da764451af24cc2f29
     }
 
     public function Events(){
