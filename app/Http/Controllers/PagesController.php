@@ -24,7 +24,7 @@ class PagesController extends Controller
                 b.repeat=\"None\" and
                 b.date=date( now() )
             ) or (
-                b.repeat=\"Everyday\"
+                b.repeat=\"Daily\"
             ) or (
                 b.repeat=\"Weekly\" and
                 datediff( b.date, date( now() ) ) % 7=0
@@ -35,20 +35,23 @@ class PagesController extends Controller
                 )=day( date( now() ) )
             ) and a.user_id=$id            
         ";
-        $query2 = "select * from appointments where id=$id";
+        $query2 = "select * from appointments where creator=$id";
 
         $data1 = DB::select( $query1 );
         $data2 = DB::select( $query2 );
         $data = Array();
 
+        array_push
         foreach( $data1 as $row ) {
             array_push( $data, $row );
         }
-        
+
         foreach( $data2 as $row ) {
             array_push( $data, $row );
         }
-        return view('pages.Dash', ["data" => $data ]);
+
+        print_r( $data );
+        // return view('pages.Dash', ["data" => $data ]);
     }
 
     public function Events( Request $req ){

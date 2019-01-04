@@ -4,17 +4,18 @@ select
             from
                 guests a join
                 appointments b
-            on ( 
+            on 
+            ( 
                 b.repeat="None" and
                 b.date=date( now() )
             ) or (
-                b.repeat="Everyday"
+                b.repeat="Daily"
             ) or (
                 b.repeat="Weekly" and
                 datediff( b.date, date( now() ) ) % 7=0
             ) or (
                 b.repeat="Monthly" and
                 (
-                    if( day( b.date ) > day( date( now() ) ), day( last_day( date( now() ) ) ), day( b.date ) )
+                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            )
+            ) and a.user_id=2
