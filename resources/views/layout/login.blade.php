@@ -9,14 +9,8 @@
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
-<<<<<<< HEAD
-=======
 <script src="{{asset('js/toastr.min.js')}}"></script>
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
-@if( $error )    
-    <script>alert( "{{ $error }}" )</script>
-@endif
->>>>>>> 11c9956bbd54457af1d37c2468e85e13f0953d27
     <title>Appointments</title>
 </head>
 <body>
