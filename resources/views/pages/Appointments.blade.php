@@ -22,7 +22,7 @@
                 			<td>{{ $row->location }}</td>
                 			<td>{{ $row->date }}</td>
                 			<td>{{ $row->repeat }}</td>
-                			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <a href="" class="btn btn-danger btn-sm">Delete</a></td>
+                			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <button type="button" onclick="delrec( {{ $row->id }} )" class="btn btn-danger btn-sm">Delete</button></td>
                 		</tr>
                 	@endforeach
                 </table>
