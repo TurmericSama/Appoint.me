@@ -44,11 +44,11 @@ class PagesController extends Controller
         foreach( $data1 as $row ) {
             array_push( $data, $row );
         }
-
+        
         foreach( $data2 as $row ) {
             array_push( $data, $row );
         }
-        print_r( $data );
+        return view('pages.Dash', ["data" => $data ]);
     }
 
     public function Events( Request $req ){
