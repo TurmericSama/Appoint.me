@@ -38,8 +38,10 @@ class PagesController extends Controller
         return view('pages.Dash', ["data" => $data ]);
     }
 
-    public function Events(){
-        $data = DB::select( "select * from appointments" );
+    public function Events( Request $req ){
+        $id = $req->session()->get( "user" )->id;
+        $query = "select * from appointments where id=". $id;
+        $data = DB::select( $query );
 
         return view('pages.Appointments', [
             "data" => $data
@@ -73,7 +75,6 @@ class PagesController extends Controller
         }
 
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );
     }
 
@@ -114,7 +115,6 @@ class PagesController extends Controller
         if( DB::insert( $query ) )
             $success = 1;
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );
     }
 
@@ -154,7 +154,6 @@ class PagesController extends Controller
         if( DB::update( $query ) )
             $success = 1;
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );  
     }
 
@@ -167,7 +166,6 @@ class PagesController extends Controller
         if( DB::delete( $query ) )
             $success = 1;
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );
     }
 
@@ -206,7 +204,6 @@ class PagesController extends Controller
         if( DB::insert( $q ) )
             $success = 1;
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );        
     }
 

@@ -62,7 +62,7 @@
             }, 
             success: function (response) {
                 response = JSON.parse( response )
-                if(response.success == 1 ){
+                if( response.success == 1 ){
                     window.location = "/dash";
                 } else{
                     toastr.warning('Wrong username or password');      
