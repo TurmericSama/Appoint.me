@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('js/jquery-3.3.1.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/signup.css')}}">
     <title>Signup</title>
     @if( $success == 1 )

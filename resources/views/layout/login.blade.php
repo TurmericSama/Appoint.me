@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
-<script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
+<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
+<script src="{{asset('js/toastr.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 @if( $error )    
     <script>alert( "{{ $error }}" )</script>
 @endif
@@ -21,11 +23,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>            
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0" method="POST">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <form class="form-inline my-2 my-lg-0" id="login_form">
+                <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}">
                 <input class="form-control mr-sm-2" type="text" placeholder="Username" id="uname" name="username" required>
                 <input class="form-control mr-sm-2" type="password" placeholder="Password" id="pass" name="password" required>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="login">Login</button>                
+                <button class="btn btn-outline-success my-2 my-sm-0">Login</button>                
             </form>
             <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/signup'">Signup</button>
         </div>
@@ -49,3 +51,27 @@
     </div>
 </body>
 </html>
+
+<script>
+    $( "#login_form" ).on( "submit", e => {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: {
+                _token: $( "#token" ).val(),
+                username: $('#uname').val(),
+                password: $('#pass').val()    
+            }, 
+            success: function (response) {
+                response = JSON.parse( response )
+                if(response.success == 1 ){
+                    window.location = "/dash";
+                } else{
+                    toastr.warning('Wrong username or password');      
+                }
+            }
+        });
+    })
+    
+</script>
