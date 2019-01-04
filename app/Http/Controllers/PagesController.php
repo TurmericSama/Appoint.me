@@ -41,7 +41,6 @@ class PagesController extends Controller
         $data2 = DB::select( $query2 );
         $data = Array();
 
-        array_push
         foreach( $data1 as $row ) {
             array_push( $data, $row );
         }
