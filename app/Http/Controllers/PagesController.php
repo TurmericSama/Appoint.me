@@ -13,10 +13,10 @@ class PagesController extends Controller
 
     public function Dash( Request $req ){
         $id = $req->session()->get( "user" )->id;
-        $query1 = "
+        $query = "
             select
-                a.*,
-                b.*
+                b.*,
+                \"Ongoing\" as status
             from
                 guests a join
                 appointments b
@@ -34,12 +34,11 @@ class PagesController extends Controller
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) and a.user_id=$id            
-        ";
-        $query2 = "
+            ) and a.user_id=$id
+            union all
             select
-                a.*,
-                b.*
+                b.*,
+                \"Upcoming\" as status
             from
                 guests a join
                 appointments b
@@ -58,9 +57,8 @@ class PagesController extends Controller
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
             ) ) and a.user_id=$id
-        ";
-        $query3 = "
-            select * 
+            union all
+            select a.*, \"Ongoing\" as status 
             from appointments a 
             where ( 
                 ( 
@@ -77,9 +75,8 @@ class PagesController extends Controller
                         if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
                     )=day( date( now() ) )
                 ) ) and a.creator=$id
-        ";
-        $query4 = "
-            select * 
+            union all
+            select a.*, \"Upcoming\" as status  
             from appointments a 
             where not(
                 ( 
@@ -98,31 +95,7 @@ class PagesController extends Controller
                 ) ) and a.creator=$id
         ";
 
-        $data1 = DB::select( $query1 );
-        $data2 = DB::select( $query2 );
-        $data3 = DB::select( $query3 );
-        $data4 = DB::select( $query4 );
-        $data = [
-            "ongoing" => [],
-            "upcoming" => []
-        ];
-
-        foreach( $data1 as $row ) {
-            array_push( $data[ "ongoing" ], $row );
-        }
-
-        foreach( $data2 as $row ) {
-            array_push( $data[ "upcoming" ], $row );
-        }
-
-        foreach( $data3 as $row ) {
-            array_push( $data[ "ongoing" ], $row );
-        }
-
-        foreach( $data4 as $row ) {
-            array_push( $data[ "upcoming" ], $row );
-        }
-
+        $data = DB::select( $query );
         return view('pages.Dash', ["data" => $data ]);
     }
 
@@ -131,7 +104,7 @@ class PagesController extends Controller
         $query = "select * from appointments where id=$id";
         $data = DB::select( $query );
 
-        return view('pages.Appointments', [
+        return view( 'pages.Appointments', [
             "data" => $data
         ]);
     }
