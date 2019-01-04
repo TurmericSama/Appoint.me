@@ -32,13 +32,11 @@
                     Appointments
                     </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/appointments">View Appointments</a>
                             <a class="dropdown-item" href="/appointments/add">Add an Appointment</a>
-                            <!-- <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">View Profiles</a>
-                            </div> -->
+                            <a class="dropdown-item" href="/appointments">My Appointments</a>
+                        </div>
                 </li>
-                <div class="dropdown float-right">
+                <div class="dropdown">
                     <a class="nav-link dropdown-toggle user" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                     </a>
