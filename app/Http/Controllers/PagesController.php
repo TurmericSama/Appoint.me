@@ -12,8 +12,35 @@ class PagesController extends Controller
     }
 
     public function Dash(){
+<<<<<<< HEAD
 
         return view('pages.Dash');
+=======
+        $query = "
+            select
+                a.*,
+                b.*
+            from
+                guests a join
+                appointments b
+            on ( 
+                b.repeat=\"None\" and
+                b.date=date( now() )
+            ) or (
+                b.repeat=\"Everyday\"
+            ) or (
+                b.repeat=\"Weekly\" and
+                datediff( b.date, date( now() ) ) % 7=0
+            ) or (
+                b.repeat=\"Monthly\" and
+                (
+                    if( day( b.date ) > day( date( now() ) ), day( date( now() ) ), day( b.date ) )
+                )=day( date( now() ) )
+            )
+        ";
+        $data = DB::select( $query );
+        return view('pages.Dash', ["data" => $data ]);
+>>>>>>> 4f341d2d9058e8458b5cd9da764451af24cc2f29
     }
 
     public function Events(){
@@ -52,12 +79,18 @@ class PagesController extends Controller
         if( $userqres ) {
             if( $passwd == $userqres[0]->password ) {
                 $req->session()->put( "user", $userqres[0] );
-                return redirect( "/dash" );
+                $json = '{ success: "1" }';
+                header( "Content-Type: application/json" );
+                echo json_encode( $json );
             } else {
-                return redirect( "/login?e=2" );
+                $json = '{ error: 2 }';
+                header( "Content-Type: application/json" );
+                echo json_encode( $json );
             }
         } else {
-            return redirect( "/login?e=1" );
+            $json = '{ error: 1 }';
+            header( "Content-Type: application/json" );
+            echo json_encode( $json );
         }
     }
 
@@ -116,7 +149,7 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
-        $date = addslashes( $req->date );
+        $date = addslashes( $req->date ). " " .addslashes( $req->time );
         $repeat = "None";
         if( $req->repeat != "None" )
             $repeat = addslashes( $req->repeatwhen );
