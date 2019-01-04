@@ -69,24 +69,19 @@ class PagesController extends Controller
         $uname = addslashes( $req->username );
         $passwd = addslashes( $req->password );
         $userq = "select * from users where uname=\"$uname\"";
+        $success = 0;
 
         $userqres = DB::select( $userq );
         if( $userqres ) {
             if( $passwd == $userqres[0]->password ) {
                 $req->session()->put( "user", $userqres[0] );
-                $json = '{ success: "1" }';
-                header( "Content-Type: application/json" );
-                echo json_encode( $json );
-            } else {
-                $json = '{ error: 2 }';
-                header( "Content-Type: application/json" );
-                echo json_encode( $json );
+                $success = 1;
             }
-        } else {
-            $json = '{ error: 1 }';
-            header( "Content-Type: application/json" );
-            echo json_encode( $json );
         }
+
+        $json = [ "success" => $success ];
+        header( "Content-Type: application/json" );
+        echo json_encode( $json );
     }
 
     public function Add( Request $req ) {
