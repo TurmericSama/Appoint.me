@@ -11,19 +11,12 @@
                 	<th scope="col">Name</th>
 					<th scope="col">When</th>
 					<th scope="col">Status</th>
-                	@foreach( $data[ "ongoing" ] as $row )
+                    @foreach( $data as $row )
                 		<tr>
                 			<td>{{ $row->name }}</td>
 							<td>{{ $row->date }}</td>
-                            <td>Ongoing</td>                			
+                            <td>{{ $row->status }}</td>                			
                 		</tr>
-                	@endforeach
-                    @foreach( $data[ "upcoming" ] as $row )
-                        <tr>
-                            <td>{{ $row->name }}</td>
-                            <td>{{ $row->date }}</td>
-                            <td>Upcoming</td>                            
-                        </tr>
                     @endforeach
                 </table>
             </div>

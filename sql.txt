@@ -18,4 +18,4 @@ select
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) and a.user_id=2
+            ) and a.user_id=1
