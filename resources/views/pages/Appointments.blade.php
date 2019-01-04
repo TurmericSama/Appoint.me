@@ -15,8 +15,15 @@
                 	<th scope="col">Action</th>
                 	@foreach( $data as $row )
                 		<tr>
-                			<td>{{ $row->name }}</td>
-							<td>{{ $row->date }}</td>
+                            <td>{{ $row->name }}</td>
+                            <td>{{ $row->date }}</td>
+                            @if( $row->date > \Carbon\Carbon::now())
+                                <td>Up-coming</td>
+                            @elseif( $row->date < \Carbon\Carbon::now())
+                                <td>Finished</td>
+                            @elseif( $row->date == \Carbon\Carbon::now())
+                                <td>Now</td>
+                            @endif 
                 			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <button type="button" onclick="delrec( {{ $row->id }} )" class="btn btn-danger btn-sm">Delete</button></td>
                 		</tr>
                 	@endforeach

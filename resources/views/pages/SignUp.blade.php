@@ -30,34 +30,34 @@
             <div class="col-md-11">
                 <div><h3 class="mt-3 mb-3 text-light">Signup</h3></div>
                 <div>
-                    <form method="POST">
+                    <form id="add_form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-row">
                             <div class="form-group col-2">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" name="username" required>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" id="username" name="username" required>
                             </div>
                             <div class="form-group col-2">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" placeholder="Password" aria-label="Username" name="password" required>
+                                <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="password" name="password" required>
                             </div>
                             <div class="form-group col-3">
                                 <label for="E-mail">E-mail</label>
-                                <input type="text" class="form-control" placeholder="E-mail" aria-label="Username" name="email" required>
+                                <input type="text" class="form-control" placeholder="E-mail" aria-label="Username" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-3">
                                 <label for="fname">Firstname</label>
-                                <input type="text" class="form-control" placeholder="First Name" aria-label="Username" name="fname" required>
+                                <input type="text" class="form-control" placeholder="First Name" aria-label="Username" id="fname" name="fname" required>
                             </div>
                             <div class="form-group col-3">
                                 <label for="mname">Middlename</label>
-                                <input type="text" class="form-control" placeholder="Middle Name" aria-label="Username" name="mname" required>
+                                <input type="text" class="form-control" placeholder="Middle Name" aria-label="Username" id="mname" name="mname" required>
                             </div>
                             <div class="form-group col-3">
                                 <label for="lname">Lastname</label>
-                                <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" name="lname" required>
+                                <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" id="lname" name="lname" required>
                             </div>
                         </div>
                         <input type="submit" value="Create Account" class="btn btn-primary">
