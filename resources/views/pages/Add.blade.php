@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-11 col-sm-12 col-lg-9">
                 <div class="mt-2">
-                    <form id="add_form">
+                    <form id="add_event">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <h3 class="text-light ml-3 mb-3">Add an Appointment</h3>
                     <div>

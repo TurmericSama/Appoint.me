@@ -12,8 +12,8 @@
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
-<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 <script src="{{asset('js/toastr.min.js')}}"></script>
+<script src="{{asset('js/jquery.form.js')}}"></script>
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 </head>
 <body>
@@ -75,6 +75,18 @@
         }
     }
 
-
+    $('#add_event').ajaxForm({
+        url: "/appointments/add",
+        type: "POST",
+        success: function(response){
+            response = JSON.parse(response)
+            if(response.success  == 1){
+                toastr.success("Event creation success");
+            } 
+            else{
+                toastr.danger("Something went wrong");
+            }
+        }
+    });
 
 </script>
