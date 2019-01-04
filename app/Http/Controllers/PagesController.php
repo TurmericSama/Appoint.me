@@ -11,8 +11,9 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
     }
 
-    public function Dash(){
-        $query = "
+    public function Dash( Request $req ){
+        $id = $req->session()->get( "user" )->id;
+        $query1 = "
             select
                 a.*,
                 b.*
@@ -30,16 +31,30 @@ class PagesController extends Controller
             ) or (
                 b.repeat=\"Monthly\" and
                 (
-                    if( day( b.date ) > day( date( now() ) ), day( date( now() ) ), day( b.date ) )
+                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            )
+            ) and a.user_id=$id            
         ";
-        $data = DB::select( $query );
+        $query2 = "select * from appointments where id=$id";
+
+        $data1 = DB::select( $query1 );
+        $data2 = DB::select( $query2 );
+        $data = Array();
+
+        foreach( $data1 as $row ) {
+            array_push( $data, $row );
+        }
+        
+        foreach( $data2 as $row ) {
+            array_push( $data, $row );
+        }
         return view('pages.Dash', ["data" => $data ]);
     }
 
-    public function Events(){
-        $data = DB::select( "select * from appointments" );
+    public function Events( Request $req ){
+        $id = $req->session()->get( "user" )->id;
+        $query = "select * from appointments where id=$id";
+        $data = DB::select( $query );
 
         return view('pages.Appointments', [
             "data" => $data
@@ -54,14 +69,7 @@ class PagesController extends Controller
         if( $req->session()->get( "user" ) ) {
             return redirect( "/dash" );
         } else {
-            $error = "";
-            if( $req->e == 1 )
-                $error = "No such user";
-            else if( $req->e == 2 )
-                $error = "Wrong password";
-            return view('pages.Login', [
-                "error" => $error
-            ]);
+            return view('pages.Login' );
         }
     }
 
@@ -80,21 +88,15 @@ class PagesController extends Controller
         }
 
         $json = [ "success" => $success ];
-        header( "Content-Type: application/json" );
         echo json_encode( $json );
     }
 
     public function Add( Request $req ) {
-        $success = "";
-
-        if( $req->success == 1 )
-            $success = "Appointment added successfully";
-        return view('pages.Add', [
-            "success" => $success
-        ]);
+        return view('pages.Add');
     }
 
     public function AddPost( Request $req ) {
+        $creator = $req->session()->get( "user" )->id;
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
@@ -106,12 +108,14 @@ class PagesController extends Controller
         $query = "
             insert into
                 appointments(
+                    `creator`,
                     `name`,
                     `desc`,
                     `location`,
                     `date`,
                     `repeat`
                 ) values(
+                    $creator,
                     \"$ename\",
                     \"$edesc\",
                     \"$elocation\",
@@ -120,8 +124,11 @@ class PagesController extends Controller
                 )
         ";
 
-        DB::insert( $query );
-        return redirect( "/appointments/add?success=1" );
+        $success = 0;
+        if( DB::insert( $query ) )
+            $success = 1;
+        $json = [ "success" => $success ];
+        echo json_encode( $json );
     }
 
     public function Edit( Request $req ) {
@@ -156,25 +163,27 @@ class PagesController extends Controller
                     id=$id
         ";
 
-        DB::update( $query );
-        return redirect( "/appointments" );
+        $success = 0;
+        if( DB::update( $query ) )
+            $success = 1;
+        $json = [ "success" => $success ];
+        echo json_encode( $json );  
     }
 
     public function Delete( Request $req ) {
         $id = addslashes( $req->id );
 
         $query = "delete from appointments where id=$id";
-        DB::delete( $query );
-        return redirect( "/appointments" );
+        $success = 0;
+
+        if( DB::delete( $query ) )
+            $success = 1;
+        $json = [ "success" => $success ];
+        echo json_encode( $json );
     }
 
     public function SignUp( Request $req ) {
-        $success = 0;
-        if( $req->success == 1 )
-            $success = 1;
-        return view('pages.SignUp', [
-            "success" => $success
-        ]);
+        return view('pages.SignUp');
     }
 
     public function SignUpPost( Request $req ) {
@@ -204,8 +213,11 @@ class PagesController extends Controller
             )
         ";
 
-        DB::insert( $q );
-        return redirect( "/signup?success=1" );
+        $success = 0;
+        if( DB::insert( $q ) )
+            $success = 1;
+        $json = [ "success" => $success ];
+        echo json_encode( $json );        
     }
 
     public function Logout( Request $req ) {

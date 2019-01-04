@@ -8,9 +8,6 @@
     <link rel="stylesheet" href="{{asset('js/jquery-3.3.1.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/signup.css')}}">
     <title>Signup</title>
-    @if( $success == 1 )
-        <script>alert( "Signup successful" )</script>
-    @endif
 </head>
 <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">

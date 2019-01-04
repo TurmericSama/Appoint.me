@@ -11,9 +11,6 @@
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/toastr.min.js')}}"></script>
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
-@if( $error )    
-    <script>alert( "{{ $error }}" )</script>
-@endif
     <title>Appointments</title>
 </head>
 <body>
@@ -65,7 +62,7 @@
             }, 
             success: function (response) {
                 response = JSON.parse( response )
-                if(response.success == 1 ){
+                if( response.success == 1 ){
                     window.location = "/dash";
                 } else{
                     toastr.warning('Wrong username or password');      
