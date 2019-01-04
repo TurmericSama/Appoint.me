@@ -17,6 +17,7 @@
                 		<tr>
                 			<td>{{ $row->name }}</td>
 							<td>{{ $row->date }}</td>
+                            <td></td>
                 			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <button type="button" onclick="delrec( {{ $row->id }} )" class="btn btn-danger btn-sm">Delete</button></td>
                 		</tr>
                 	@endforeach
