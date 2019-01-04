@@ -12,8 +12,8 @@ class PagesController extends Controller
     }
 
     public function Dash(){
-        $data = DB::select("select * from appointments");
-        return view('pages.Dash', ["data" => $data ]);
+
+        return view('pages.Dash');
     }
 
     public function Events(){
