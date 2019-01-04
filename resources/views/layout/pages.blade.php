@@ -60,11 +60,11 @@
         $('#options').hide();
         $("input[type='radio']").on("change", function() {        
             if ($("#radio1").is(':checked')) {
-                $('#options').hide();
+                $('#options').remove();
             } else {
-                 $('#options').show();
+                 $('#options').add();
             }
-        })
+        });
     });
 
     function delrec( id ) {
@@ -73,5 +73,30 @@
         } else{
             alert('Operation canceled');
         }
-    }
+    };
+
+        $('#add_form').on("submit", e => {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/appointments/add",
+                data: {
+                    _token: $( "#token" ).val(),
+                    ename: $('#ename').val(),
+                    edesc: $('#edesc').val(),
+                    elocation: $('#elocation').val(),
+                    date: $('#date').val(),
+                    time: $('#time').val(),
+                    repeatwhen: $('input[name=repeatwhen]')
+                }, 
+                success: function (response) {
+                    response = JSON.parse( response )
+                    if(response.success == 1 ){
+                        toastr.success('Event creation successful');
+                    } else{
+                        toastr.warning('Unexpected error');     
+                    }
+                }
+            });
+        });
 </script>
