@@ -20,7 +20,7 @@ class PagesController extends Controller
             from
                 guests a join
                 appointments b
-            on 
+            on (
             ( 
                 b.repeat=\"None\" and
                 b.date=date( now() )
@@ -34,7 +34,7 @@ class PagesController extends Controller
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) and a.user_id=$id
+            ) ) and a.user_id=$id
             union all
             select
                 b.*,
@@ -97,6 +97,11 @@ class PagesController extends Controller
 
         $data = DB::select( $query );
         return view('pages.Dash', ["data" => $data ]);
+    }
+
+    public function DashFetch( Request $req ) {
+        $id = addslashes( $req->id );
+
     }
 
     public function Events( Request $req ){
