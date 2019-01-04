@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--links and scripts-->
-    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -56,47 +56,25 @@
 </html>
 
 <script>
-    // $(document).ready(function () {
-    //     $('#options').hide();
-    //     $("input[type='radio']").on("change", function() {        
-    //         if ($("#radio1").is(':checked')) {
-    //             $('#options').hide();
-    //         } else {
-    //              $('#options').show();
-    //         }
-    //     })
-    // });
-
-    // function delrec( id ) {
-    //     if( confirm('Are you sure you want to delete this Event') ) {
-    //         window.location = "/appointments/delete?id=" + id;
-    //     } else{
-    //         alert('Operation canceled');
-    //     }
-    // }
-
-    $( "#add_form" ).on( "submit", e => {
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: "/appointments/add",
-            data: {
-                _token: $( "#token" ).val(),
-                ename: $('#ename').val(),
-                edesc: $('#edesc').val(),
-                elocation: $('#elocation').val(),
-                date: $('#date').val(),
-                time: $('#time').val(),
-                repeatwhen: $('input[name=repeatwhen]')
-            }, 
-            success: function (response) {
-                response = JSON.parse( response );
-                if(response.success == 1 ){
-                    toastr.success('Event creation successful');
-                } else{
-                    toastr.warning('Unexpected error');     
-                }
+    $(document).ready(function () {
+        $('#options').hide();
+        $("input[type='radio']").on("change", function() {        
+            if ($("#radio1").is(':checked')) {
+                $('#options').hide();
+            } else {
+                 $('#options').show();
             }
-        });
+        })
     });
+
+    function delrec( id ) {
+        if( confirm('Are you sure you want to delete this Event') ) {
+            window.location = "/appointments/delete?id=" + id;
+        } else{
+            alert('Operation canceled');
+        }
+    }
+
+
+
 </script>
