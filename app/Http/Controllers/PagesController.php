@@ -20,7 +20,8 @@ class PagesController extends Controller
             from
                 guests a join
                 appointments b
-            on ( 
+            on 
+            ( 
                 b.repeat=\"None\" and
                 b.date=date( now() )
             ) or (
@@ -35,23 +36,94 @@ class PagesController extends Controller
                 )=day( date( now() ) )
             ) and a.user_id=$id            
         ";
-        $query2 = "select * from appointments where creator=$id";
+        $query2 = "
+            select
+                a.*,
+                b.*
+            from
+                guests a join
+                appointments b
+            on not(
+            ( 
+                b.repeat=\"None\" and
+                b.date=date( now() )
+            ) or (
+                b.repeat=\"Daily\"
+            ) or (
+                b.repeat=\"Weekly\" and
+                datediff( b.date, date( now() ) ) % 7=0
+            ) or (
+                b.repeat=\"Monthly\" and
+                (
+                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                )=day( date( now() ) )
+            ) ) and a.user_id=$id
+        ";
+        $query3 = "
+            select * 
+            from appointments a 
+            where ( 
+                ( 
+                    a.repeat=\"None\" and
+                    a.date=date( now() )
+                ) or (
+                    a.repeat=\"Daily\"
+                ) or (
+                    a.repeat=\"Weekly\" and
+                    datediff( a.date, date( now() ) ) % 7=0
+                ) or (
+                    a.repeat=\"Monthly\" and
+                    (
+                        if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
+                    )=day( date( now() ) )
+                ) ) and a.creator=$id
+        ";
+        $query4 = "
+            select * 
+            from appointments a 
+            where not(
+                ( 
+                    a.repeat=\"None\" and
+                    a.date=date( now() )
+                ) or (
+                    a.repeat=\"Daily\"
+                ) or (
+                    a.repeat=\"Weekly\" and
+                    datediff( a.date, date( now() ) ) % 7=0
+                ) or (
+                    a.repeat=\"Monthly\" and
+                    (
+                        if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
+                    )=day( date( now() ) )
+                ) ) and a.creator=$id
+        ";
 
         $data1 = DB::select( $query1 );
         $data2 = DB::select( $query2 );
-        $data = Array();
+        $data3 = DB::select( $query3 );
+        $data4 = DB::select( $query4 );
+        $data = [
+            "ongoing" => [],
+            "upcoming" => []
+        ];
 
-        array_push
         foreach( $data1 as $row ) {
-            array_push( $data, $row );
+            array_push( $data[ "ongoing" ], $row );
         }
 
         foreach( $data2 as $row ) {
-            array_push( $data, $row );
+            array_push( $data[ "upcoming" ], $row );
         }
 
-        print_r( $data );
-        // return view('pages.Dash', ["data" => $data ]);
+        foreach( $data3 as $row ) {
+            array_push( $data[ "ongoing" ], $row );
+        }
+
+        foreach( $data4 as $row ) {
+            array_push( $data[ "upcoming" ], $row );
+        }
+
+        return view('pages.Dash', ["data" => $data ]);
     }
 
     public function Events( Request $req ){
