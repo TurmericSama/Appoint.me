@@ -13,6 +13,8 @@
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('js/toastr.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 </head>
 <body>
     

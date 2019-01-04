@@ -36,6 +36,17 @@ class PagesController extends Controller
         ";
         $data = DB::select( $query );
         return view('pages.Dash', ["data" => $data ]);
+<<<<<<< HEAD
+=======
+    }
+
+    public function Events(){
+        $data = DB::select( "select * from appointments" );
+
+        return view('pages.Appointments', [
+            "data" => $data
+        ]);
+>>>>>>> 11c9956bbd54457af1d37c2468e85e13f0953d27
     }
 
     public function User(){
