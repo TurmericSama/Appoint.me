@@ -1,0 +1,20 @@
+select
+                a.*,
+                b.*
+            from
+                guests a join
+                appointments b
+            on ( 
+                b.repeat="None" and
+                b.date=date( now() )
+            ) or (
+                b.repeat="Everyday"
+            ) or (
+                b.repeat="Weekly" and
+                datediff( b.date, date( now() ) ) % 7=0
+            ) or (
+                b.repeat="Monthly" and
+                (
+                    if( day( b.date ) > day( date( now() ) ), day( last_day( date( now() ) ) ), day( b.date ) )
+                )=day( date( now() ) )
+            )
