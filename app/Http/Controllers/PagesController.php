@@ -11,8 +11,9 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
     }
 
-    public function Dash(){
-        $query = "
+    public function Dash( Request $req ){
+        $id = $req->session()->get( "user" )->id;
+        $query1 = "
             select
                 a.*,
                 b.*
@@ -32,15 +33,27 @@ class PagesController extends Controller
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            )
+            ) and a.user_id=$id            
         ";
-        $data = DB::select( $query );
-        return view('pages.Dash', ["data" => $data ]);
+        $query2 = "select * from appointments where id=$id";
+
+        $data1 = DB::select( $query1 );
+        $data2 = DB::select( $query2 );
+        $data = Array();
+
+        foreach( $data1 as $row ) {
+            array_push( $data, $row );
+        }
+
+        foreach( $data2 as $row ) {
+            array_push( $data, $row );
+        }
+        print_r( $data );
     }
 
     public function Events( Request $req ){
         $id = $req->session()->get( "user" )->id;
-        $query = "select * from appointments where id=". $id;
+        $query = "select * from appointments where id=$id";
         $data = DB::select( $query );
 
         return view('pages.Appointments', [
