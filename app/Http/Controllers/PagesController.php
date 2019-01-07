@@ -11,8 +11,12 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
     }
 
-    public function Dash( Request $req ){
-        $id = $req->session()->get( "user" )->id;
+    public function Dash( Request $req ){        
+        return view('pages.Dash');
+    }
+
+    public function DashFetch( Request $req ) {
+        $uid = $req->session()->get( "user" )->id;
         $query = "
             select
                 b.*,
@@ -34,7 +38,7 @@ class PagesController extends Controller
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) ) and a.user_id=$id
+            ) ) and a.user_id=$uid and a.appointment_id=b.id
             union all
             select
                 b.*,
@@ -56,7 +60,7 @@ class PagesController extends Controller
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) ) and a.user_id=$id
+            ) ) and a.user_id=$uid and a.appointment_id=b.id
             union all
             select a.*, \"Ongoing\" as status 
             from appointments a 
@@ -74,7 +78,7 @@ class PagesController extends Controller
                     (
                         if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
                     )=day( date( now() ) )
-                ) ) and a.creator=$id
+                ) ) and a.creator=$uid
             union all
             select a.*, \"Upcoming\" as status  
             from appointments a 
@@ -92,21 +96,27 @@ class PagesController extends Controller
                     (
                         if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
                     )=day( date( now() ) )
-                ) ) and a.creator=$id
+                ) ) and a.creator=$uid
         ";
 
-        $data = DB::select( $query );
-        return view('pages.Dash', ["data" => $data ]);
-    }
-
-    public function DashFetch( Request $req ) {
-        $id = addslashes( $req->id );
-
+        $tdata = DB::select( $query );
+        $pdata = [];
+        foreach( $tdata as $row ) {
+            $arr = [
+                "ename" => $row->name,
+                "edate" => $row->date,
+                "status" => $row->status
+            ];
+            array_push( $pdata, $arr );
+        }
+        $data[ "data" ] = $pdata;
+        $data = json_encode( $data );
+        echo $data;
     }
 
     public function Events( Request $req ){
         $id = $req->session()->get( "user" )->id;
-        $query = "select * from appointments where id=$id";
+        $query = "select * from appointments where creator=$id";
         $data = DB::select( $query );
 
         return view( 'pages.Appointments', [

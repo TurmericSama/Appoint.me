@@ -1,10 +1,12 @@
-select
+
+            select
                 a.*,
-                b.*
+                b.*,
+                "Upcoming" as status
             from
                 guests a join
                 appointments b
-            on 
+            on not(
             ( 
                 b.repeat="None" and
                 b.date=date( now() )
@@ -18,4 +20,4 @@ select
                 (
                     if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                 )=day( date( now() ) )
-            ) and a.user_id=1
+            ) ) and a.user_id=2 and a.id=b.id

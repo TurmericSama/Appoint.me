@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dash', 'PagesController@Dash' );
+Route::get( "/dashfetch", "PagesController@DashFetch" );
 Route::get('/appointments', 'PagesController@Events');
 Route::get('/user','PagesController@User');
 Route::get('/login', 'PagesController@Login');

@@ -85,4 +85,17 @@
             </div>
         </div>
     </div>
+    <script>
+        $( "#add_form" ).ajaxForm({
+            url: "/appointments/add",
+            type: "post",
+            success: function( res ) {
+                res = JSON.parse( res )
+                if( res.success == 1 )
+                    window.location = "/appointments"
+                else
+                    alert( "Adding failed successfuly" )
+            }
+        })
+    </script>
 @endsection

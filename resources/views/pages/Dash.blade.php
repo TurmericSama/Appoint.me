@@ -11,15 +11,39 @@
                 	<th scope="col">Name</th>
 					<th scope="col">When</th>
 					<th scope="col">Status</th>
-                    @foreach( $data as $row )
-                		<tr>
-                			<td>{{ $row->name }}</td>
-							<td>{{ $row->date }}</td>
-                            <td>{{ $row->status }}</td>                			
-                		</tr>
-                    @endforeach
+                    <tbody id="data">
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <script>        
+        $( document ).ready( e => {
+            gres = ""
+            setInterval( check, 1000 )
+        })
+
+        function check() {
+            console.log( "Entered sync" )
+            $.ajax({
+                url: "/dashfetch",
+                success: function( res ) {
+                    if( gres != res ) {                        
+                        gres = res
+                        res = JSON.parse( res )
+                        $( "#data" ).text( "" )
+                        res.data.forEach( cur => {
+                            $( "#data" ).append( `
+                                <tr>
+                                    <td max="12">${ cur.ename }</td>
+                                    <td>${ cur.edate }</td>
+                                    <td>${ cur.status }</td>
+                                </tr>
+                            `)
+                        })
+                    }
+                }
+            })
+        }
+    </script>
 @endsection

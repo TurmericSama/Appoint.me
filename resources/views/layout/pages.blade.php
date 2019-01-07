@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{asset('js/jquery.form.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
@@ -21,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <a style="color:green;" class="navbar-brand" href="/">Appoint.me</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon" on></span>
         </button>            
                 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -74,7 +75,4 @@
             alert('Operation canceled');
         }
     }
-
-
-
 </script>
