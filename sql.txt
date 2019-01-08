@@ -1,23 +1,28 @@
-
-            select
-                a.*,
-                b.*,
-                "Upcoming" as status
+select a.*, b.*                    
             from
-                guests a join
+                guests a left join
                 appointments b
-            on not(
-            ( 
-                b.repeat="None" and
-                b.date=date( now() )
-            ) or (
-                b.repeat="Daily"
-            ) or (
-                b.repeat="Weekly" and
-                datediff( b.date, date( now() ) ) % 7=0
-            ) or (
-                b.repeat="Monthly" and
-                (
-                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                )=day( date( now() ) )
-            ) ) and a.user_id=2 and a.id=b.id
+            on
+                ( 
+                        (
+                            b.repeat="None" and
+                            date( b.date )=date( now() )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat="Daily" and
+                            date( now() )>=date( b.date )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat="Weekly" and
+                            datediff( date( b.date ), date( now() ) ) % 7=0
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat="Monthly" and
+                            (
+                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                            )=day( date( now() ) )
+                        ) 
+                    ) and time( now() )>=time( b.date ) and a.appointment_id=b.id
