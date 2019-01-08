@@ -9,38 +9,47 @@ class PagesController extends Controller
 {
     public function __construct() {
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
-        $query = "
+        $query = "  
             select
-                b.*,
-                if (
-                    ( 
-                        (
-                            b.repeat=\"None\" and
-                            date( b.date )=date( now() )
-                        ) and time( now() )>=time( b.date )
-                    ) or (
-                        (
-                            b.repeat=\"Daily\" and
-                            date( now() )>=date( b.date )
-                        ) and time( now() )>=time( b.date )
-                    ) or (
-                        (
-                            b.repeat=\"Weekly\" and
-                            datediff( date( b.date ), date( now() ) ) % 7=0
-                        ) and time( now() )>=time( b.date )
-                    ) or (
-                        (
-                            b.repeat=\"Monthly\" and
-                            (
-                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                            )=day( date( now() ) )
-                        ) and time( now() )>=time( b.date )
-                    ), \"Ongoing\", \"Upcoming\" ) as status                 
+                b.*
             from
-                guests a left join
                 appointments b
-            on
-                a.appointment_id=b.id
+            where
+                ( 
+                    (
+                        b.repeat=\"None\" and
+                        b.date=date( now() )
+                    ) and (
+                        time( now() )>=b.start_time and
+                        time( now() )<=b.end_time
+                    )
+                ) or (
+                    (
+                        b.repeat=\"Daily\" and
+                        date( now() )>=b.date
+                    ) and (
+                        time( now() )>=b.start_time and
+                        time( now() )<=b.end_time
+                    )
+                ) or (
+                    (
+                        b.repeat=\"Weekly\" and
+                        datediff( b.date, date( now() ) ) % 7=0
+                    ) and (
+                        time( now() )>=b.start_time and
+                        time( now() )<=b.end_time
+                    )
+                ) or (
+                    (
+                        b.repeat=\"Monthly\" and
+                        (
+                            if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                        )=day( date( now() ) )
+                    ) and (
+                        time( now() )>=b.start_time and
+                        time( now() )<=b.end_time
+                    )
+                )
         ";
     }
 
@@ -57,28 +66,40 @@ class PagesController extends Controller
                     ( 
                         (
                             b.repeat=\"None\" and
-                            date( b.date )=date( now() )
-                        ) and time( now() )>=time( b.date )
+                            b.date=date( now() )
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
                     ) or (
                         (
                             b.repeat=\"Daily\" and
-                            date( now() )>=date( b.date )
-                        ) and time( now() )>=time( b.date )
+                            date( now() )>=b.date
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
                     ) or (
                         (
                             b.repeat=\"Weekly\" and
-                            datediff( date( b.date ), date( now() ) ) % 7=0
-                        ) and time( now() )>=time( b.date )
+                            datediff( b.date, date( now() ) ) % 7=0
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
                     ) or (
                         (
                             b.repeat=\"Monthly\" and
                             (
                                 if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
                             )=day( date( now() ) )
-                        ) and time( now() )>=time( b.date )
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
                     ), \"Ongoing\", \"Upcoming\" ) as status                 
             from
-                guests a left join
+                guests a right join
                 appointments b
             on
                 ( a.user_id=$uid and a.appointment_id=b.id ) or b.creator=$uid
@@ -148,7 +169,9 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
-        $date = addslashes( $req->date ). " " .addslashes( $req->time );
+        $date = addslashes( $req->date );
+        $stime = addslashes( $req->stime );
+        $etime = addslashes( $req->etime );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -171,7 +194,7 @@ class PagesController extends Controller
                     \"$elocation\",
                     \"$date\",
                     \"$stime\",
-                    \"$etimme\",
+                    \"$etime\",
                     \"$repeat\"
                 )
         ";
@@ -198,7 +221,9 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
-        $date = addslashes( $req->date ). " " .addslashes( $req->time );
+        $date = addslashes( $req->date );
+        $stime = addslashes( $req->stime );
+        $etime = addslashes( $req->etime );
         $repeat = "None";
         if( $req->repeat != "None" )
             $repeat = addslashes( $req->repeatwhen );
@@ -210,6 +235,8 @@ class PagesController extends Controller
                     `desc`=\"$edesc\",
                     `location`=\"$elocation\",
                     `date`=\"$date\",
+                    `start_time`=\"$stime\",
+                    `end_time`=\"$etime\",
                     `repeat`=\"$repeat\"
                 where
                     id=$id

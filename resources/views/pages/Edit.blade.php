@@ -30,10 +30,11 @@
                                     <input type="text" class="form-control" placeholder="Ex. Camille and Ed's Wedding Anniversary" name="elocation" value="{{ $data->location }}">
                             </div>
                             <div class="input-group mb-3">
-                                    <input type="date" name="date" id="date" class="form-control" value="{{ explode( " ", $data->date )[0] }}">
+                                <input type="date" name="date" id="date" class="form-control" value="{{ $data->date }}">
+                                    <input type="time" name="stime" id="stime" class="form-control" value="{{ $data->start_time }}">
                                 </div>
                                 <div class="input-group mb-3">
-                                        <input type="time" name="time" id="time" class="form-control" value="{{ explode( " ", $data->date )[1] }}">
+                                        <input type="time" name="etime" id="etime" class="form-control" value="{{ $data->end_time }}">
                                     </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">

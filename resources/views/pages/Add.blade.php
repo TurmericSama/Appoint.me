@@ -43,18 +43,18 @@
                                         </div>
                                     <input type="date" name="date" id="date" class="form-control col-3" required>
                                 </div>
-                                <div class="input-group mb-6">
+                                <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                                 <span class="input-group-text" id="inputGroup-sizing-sm">Start Time</span>
                                             </div>
-                                        <input type="time" name="stime" id="time" class="form-control col-2" required>
+                                        <input type="time" name="stime" id="stime" class="form-control col-2" required>
                                     </div>
-                                    <div class="input-group mb-6">
-                                        <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroup-sizing-sm">End Time</span>
-                                            </div>
-                                        <input type="time" name="etime" id="time" class="form-control col-2" required>
-                                    </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">End Time</span>
+                                        </div>
+                                    <input type="time" name="etime" id="etime" class="form-control col-2" required>
+                                </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
                             <div class="form-check-inline">
@@ -98,7 +98,7 @@
         </div>
     </div>
     <script>
-        $( "#add_form" ).ajaxForm({
+        $( "#add_event" ).ajaxForm({
             url: "/appointments/add",
             type: "post",
             success: function( res ) {
