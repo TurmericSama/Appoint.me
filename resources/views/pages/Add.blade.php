@@ -47,13 +47,13 @@
                                         <div class="input-group-prepend">
                                                 <span class="input-group-text" id="inputGroup-sizing-sm">Start Time</span>
                                             </div>
-                                        <input type="time" name="time" id="time" class="form-control col-2" required>
+                                        <input type="time" name="stime" id="time" class="form-control col-2" required>
                                     </div>
                                     <div class="input-group mb-6">
                                         <div class="input-group-prepend">
                                                 <span class="input-group-text" id="inputGroup-sizing-sm">End Time</span>
                                             </div>
-                                        <input type="time" name="time" id="time" class="form-control col-2" required>
+                                        <input type="time" name="etime" id="time" class="form-control col-2" required>
                                     </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
