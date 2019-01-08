@@ -9,6 +9,39 @@ class PagesController extends Controller
 {
     public function __construct() {
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
+        $query = "
+            select
+                b.*,
+                if (
+                    ( 
+                        (
+                            b.repeat=\"None\" and
+                            date( b.date )=date( now() )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Daily\" and
+                            date( now() )>=date( b.date )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Weekly\" and
+                            datediff( date( b.date ), date( now() ) ) % 7=0
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Monthly\" and
+                            (
+                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                            )=day( date( now() ) )
+                        ) and time( now() )>=time( b.date )
+                    ), \"Ongoing\", \"Upcoming\" ) as status                 
+            from
+                guests a left join
+                appointments b
+            on
+                a.appointment_id=b.id
+        ";
     }
 
     public function Dash( Request $req ){        
@@ -20,83 +53,35 @@ class PagesController extends Controller
         $query = "
             select
                 b.*,
-                \"Ongoing\" as status
+                if (
+                    ( 
+                        (
+                            b.repeat=\"None\" and
+                            date( b.date )=date( now() )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Daily\" and
+                            date( now() )>=date( b.date )
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Weekly\" and
+                            datediff( date( b.date ), date( now() ) ) % 7=0
+                        ) and time( now() )>=time( b.date )
+                    ) or (
+                        (
+                            b.repeat=\"Monthly\" and
+                            (
+                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                            )=day( date( now() ) )
+                        ) and time( now() )>=time( b.date )
+                    ), \"Ongoing\", \"Upcoming\" ) as status                 
             from
-                guests a join
+                guests a left join
                 appointments b
-            on (
-            ( 
-                b.repeat=\"None\" and
-                b.date=date( now() )
-            ) or (
-                b.repeat=\"Daily\"
-            ) or (
-                b.repeat=\"Weekly\" and
-                datediff( b.date, date( now() ) ) % 7=0
-            ) or (
-                b.repeat=\"Monthly\" and
-                (
-                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                )=day( date( now() ) )
-            ) ) and a.user_id=$uid and a.appointment_id=b.id
-            union all
-            select
-                b.*,
-                \"Upcoming\" as status
-            from
-                guests a join
-                appointments b
-            on not(
-            ( 
-                b.repeat=\"None\" and
-                b.date=date( now() )
-            ) or (
-                b.repeat=\"Daily\"
-            ) or (
-                b.repeat=\"Weekly\" and
-                datediff( b.date, date( now() ) ) % 7=0
-            ) or (
-                b.repeat=\"Monthly\" and
-                (
-                    if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                )=day( date( now() ) )
-            ) ) and a.user_id=$uid and a.appointment_id=b.id
-            union all
-            select a.*, \"Ongoing\" as status 
-            from appointments a 
-            where ( 
-                ( 
-                    a.repeat=\"None\" and
-                    a.date=date( now() )
-                ) or (
-                    a.repeat=\"Daily\"
-                ) or (
-                    a.repeat=\"Weekly\" and
-                    datediff( a.date, date( now() ) ) % 7=0
-                ) or (
-                    a.repeat=\"Monthly\" and
-                    (
-                        if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
-                    )=day( date( now() ) )
-                ) ) and a.creator=$uid
-            union all
-            select a.*, \"Upcoming\" as status  
-            from appointments a 
-            where not(
-                ( 
-                    a.repeat=\"None\" and
-                    a.date=date( now() )
-                ) or (
-                    a.repeat=\"Daily\"
-                ) or (
-                    a.repeat=\"Weekly\" and
-                    datediff( a.date, date( now() ) ) % 7=0
-                ) or (
-                    a.repeat=\"Monthly\" and
-                    (
-                        if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
-                    )=day( date( now() ) )
-                ) ) and a.creator=$uid
+            on
+                ( a.user_id=$uid and a.appointment_id=b.id ) or b.creator=$uid
         ";
 
         $tdata = DB::select( $query );
@@ -114,7 +99,7 @@ class PagesController extends Controller
         echo $data;
     }
 
-    public function Events( Request $req ){
+    public function Events( Request $req ) {
         $id = $req->session()->get( "user" )->id;
         $query = "select * from appointments where creator=$id";
         $data = DB::select( $query );
@@ -124,7 +109,7 @@ class PagesController extends Controller
         ]);
     }
 
-    public function User(){
+    public function User() {
         return view('pages.User');
     }
 

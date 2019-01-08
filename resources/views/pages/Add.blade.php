@@ -27,6 +27,12 @@
                               </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
+                                    <span class="input-group-text">Event Guests</span>
+                                </div>
+                                <input type="text" multiple>
+                              </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Location</span>
                                 </div>
                                     <input type="text" class="form-control" placeholder="Ex.: 2 Fatima Ave, Valenzuela, Metro Manila" name="elocation" id="elocation" required>
