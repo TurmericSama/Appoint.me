@@ -66,6 +66,8 @@
                  $('#options').show();
             }
         })
+
+        
     });
 
     function delrec( id ) {
