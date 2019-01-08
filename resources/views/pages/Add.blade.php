@@ -43,9 +43,15 @@
                                         </div>
                                     <input type="date" name="date" id="date" class="form-control col-3" required>
                                 </div>
-                                <div class="input-group mb-3">
+                                <div class="input-group mb-6">
                                         <div class="input-group-prepend">
-                                                <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">Start Time</span>
+                                            </div>
+                                        <input type="time" name="time" id="time" class="form-control col-2" required>
+                                    </div>
+                                    <div class="input-group mb-6">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroup-sizing-sm">End Time</span>
                                             </div>
                                         <input type="time" name="time" id="time" class="form-control col-2" required>
                                     </div>

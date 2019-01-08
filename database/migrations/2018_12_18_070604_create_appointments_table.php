@@ -20,6 +20,8 @@ class CreateAppointmentsTable extends Migration
             $table->mediumtext('desc');
             $table->mediumtext('location');
             $table->dateTime('date');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
             $table->string('repeat');
         });

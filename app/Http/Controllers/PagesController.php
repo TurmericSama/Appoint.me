@@ -161,6 +161,8 @@ class PagesController extends Controller
                     `desc`,
                     `location`,
                     `date`,
+                    `start_time`,
+                    `end_time`,
                     `repeat`
                 ) values(
                     $creator,
@@ -168,6 +170,8 @@ class PagesController extends Controller
                     \"$edesc\",
                     \"$elocation\",
                     \"$date\",
+                    \"$stime\",
+                    \"$etimme\",
                     \"$repeat\"
                 )
         ";
