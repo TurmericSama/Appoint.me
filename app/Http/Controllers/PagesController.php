@@ -103,6 +103,7 @@ class PagesController extends Controller
         $pdata = [];
         foreach( $tdata as $row ) {
             $arr = [
+                "id" => $row->id,
                 "ename" => $row->name,
                 "edate" => $row->date,
                 "status" => $row->status

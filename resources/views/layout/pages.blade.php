@@ -75,8 +75,6 @@
             alert('Operation canceled');
         }
     }
-<<<<<<< HEAD
-=======
 
     $('#add_event').ajaxForm({
         url: "/appointments/add",
@@ -92,5 +90,4 @@
         }
     });
 
->>>>>>> c59f69c8af1af3180402530e4ec22b4f4331bd42
 </script>
