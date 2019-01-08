@@ -15,8 +15,8 @@ class CreateGuestsTable extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer( "appointment_id" )->references( "id" )->on( "appointments" );
-            $table->integer( "user_id" )->references( "id" )->on( "users" );
+            $table->integer( "appointment_id" )->references( "appointment_id" )->on( "appointments" );
+            $table->integer( "user_id" )->references( "user_id" )->on( "users" );
             $table->timestamps();
         });
     }

@@ -4,53 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+$sent = [];
 
 class PagesController extends Controller
 {
     public function __construct() {
-        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost" );
-        $query = "  
+        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch" );
+    }
+
+    public function Fetch( Request $req ) {
+        $query = "
             select
+                a.*,
                 b.*
             from
-                appointments b
-            where
-                ( 
-                    (
-                        b.repeat=\"None\" and
-                        b.date=date( now() )
-                    ) and (
-                        time( now() )>=b.start_time and
-                        time( now() )<=b.end_time
-                    )
-                ) or (
-                    (
-                        b.repeat=\"Daily\" and
-                        date( now() )>=b.date
-                    ) and (
-                        time( now() )>=b.start_time and
-                        time( now() )<=b.end_time
-                    )
-                ) or (
-                    (
-                        b.repeat=\"Weekly\" and
-                        datediff( b.date, date( now() ) ) % 7=0
-                    ) and (
-                        time( now() )>=b.start_time and
-                        time( now() )<=b.end_time
-                    )
-                ) or (
-                    (
-                        b.repeat=\"Monthly\" and
-                        (
-                            if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                        )=day( date( now() ) )
-                    ) and (
-                        time( now() )>=b.start_time and
-                        time( now() )<=b.end_time
-                    )
-                )
+                appointments a join
+                users b
+            on
+                a.repeat!=\"Ended\" and
+                time( now() )>=a.start_time and
+                time( now() )<=a.end_time and
+                a.date>=date( now() ) left join
+                guests c
+                    on
+                        c.appointment_id=a.appointment_id and
+                        if( c.user_id is not null, c.user_id, a.creator )=b.user_id
         ";
+
+        $data = json_encode( DB::select( $query ) );
+
+        echo $data;
     }
 
     public function Dash( Request $req ){        
@@ -58,7 +41,7 @@ class PagesController extends Controller
     }
 
     public function DashFetch( Request $req ) {
-        $uid = $req->session()->get( "user" )->id;
+        $uid = $req->session()->get( "user" )->user_id;
         $query = "
             select
                 b.*,
@@ -99,17 +82,17 @@ class PagesController extends Controller
                         )
                     ), \"Ongoing\", \"Upcoming\" ) as status                 
             from
-                guests a right join
-                appointments b
+                appointments b left join
+                guests a
             on
-                ( a.user_id=$uid and a.appointment_id=b.id ) or b.creator=$uid
+                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid
         ";
 
         $tdata = DB::select( $query );
         $pdata = [];
         foreach( $tdata as $row ) {
             $arr = [
-                "id" => $row->id,
+                "id" => $row->appointment_id,
                 "ename" => $row->name,
                 "edate" => $row->date,
                 "status" => $row->status
@@ -121,14 +104,58 @@ class PagesController extends Controller
         echo $data;
     }
 
-    public function Events( Request $req ) {
-        $id = $req->session()->get( "user" )->id;
-        $query = "select * from appointments where creator=$id";
-        $data = DB::select( $query );
+    public function Events( Request $req ) {        
+        return view( 'pages.Appointments' );
+    }
 
-        return view( 'pages.Appointments', [
-            "data" => $data
-        ]);
+    public function EventsFetch( Request $req ) {
+        $id = $req->session()->get( "user" )->user_id;
+        $query = "
+            select
+                b.*,
+                if (
+                    ( 
+                        (
+                            b.repeat=\"None\" and
+                            b.date=date( now() )
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
+                    ) or (
+                        (
+                            b.repeat=\"Daily\" and
+                            date( now() )>=b.date
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
+                    ) or (
+                        (
+                            b.repeat=\"Weekly\" and
+                            datediff( b.date, date( now() ) ) % 7=0
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
+                    ) or (
+                        (
+                            b.repeat=\"Monthly\" and
+                            (
+                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
+                            )=day( date( now() ) )
+                        ) and (
+                            time( now() )>=b.start_time and
+                            time( now() )<=b.end_time
+                        )
+                    ), \"Ongoing\", \"Upcoming\" ) as status                 
+            from
+                appointments b
+            where
+                b.creator=$id
+        ";
+        $data = json_encode( DB::select( $query ) );
+        echo $data;
     }
 
     public function User() {
@@ -166,7 +193,7 @@ class PagesController extends Controller
     }
 
     public function AddPost( Request $req ) {
-        $creator = $req->session()->get( "user" )->id;
+        $creator = $req->session()->get( "user" )->user_id;
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $elocation = addslashes( $req->elocation );
@@ -209,7 +236,7 @@ class PagesController extends Controller
 
     public function Edit( Request $req ) {
         $id = addslashes( $req->id );
-        $query = "select * from appointments where id=$id";
+        $query = "select * from appointments where appointment_id=$id";
 
         $data = DB::select( $query )[0];
         return view( "pages.Edit", [
@@ -240,7 +267,7 @@ class PagesController extends Controller
                     `end_time`=\"$etime\",
                     `repeat`=\"$repeat\"
                 where
-                    id=$id
+                    appointment_id=$id
         ";
 
         $success = 0;
@@ -253,7 +280,7 @@ class PagesController extends Controller
     public function Delete( Request $req ) {
         $id = addslashes( $req->id );
 
-        $query = "delete from appointments where id=$id";
+        $query = "delete from appointments where appointment_id=$id";
         $success = 0;
 
         if( DB::delete( $query ) )

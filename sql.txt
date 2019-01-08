@@ -1,42 +1,15 @@
 select
-    a.*,
-    b.*
-from
-    appointments a left join
-    guests b
-on
-    ( 
-        (
-            a.repeat="None" and
-            a.date=date( now() )
-        ) and (
-            time( now() )>=a.start_time and
-            time( now() )<=a.end_time
-        )
-    ) or (
-        (
-            a.repeat="Daily" and
-            date( now() )>=a.date
-        ) and (
-            time( now() )>=a.start_time and
-            time( now() )<=a.end_time
-        )
-    ) or (
-        (
-            a.repeat="Weekly" and
-            datediff( a.date, date( now() ) ) % 7=0
-        ) and (
-            time( now() )>=a.start_time and
-            time( now() )<=a.end_time
-        )
-    ) or (
-        (
-            a.repeat="Monthly" and
-            (
-                if( day( a.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( a.date ) )
-            )=day( date( now() ) )
-        ) and (
-            time( now() )>=a.start_time and
-            time( now() )<=a.end_time
-        )
-    ) and a.id=b.appointment_id
+                a.*,
+                b.*
+            from
+                appointments a join
+                users b
+            on
+                a.repeat!="Ended" and
+                time( now() )>=a.start_time and
+                time( now() )<=a.end_time and
+                a.date>=date( now() ) left join
+                guests c
+                    on
+                        c.appointment_id=a.appointment_id and
+                        if( c.user_id is not null, c.user_id, a.creator )=b.user_id

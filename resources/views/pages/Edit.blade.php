@@ -8,7 +8,7 @@
                 <div class="mt-2">
                     <form id="edit_event">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="id" value="{{ $data->id }}">
+                    <input type="hidden" name="id" value="{{ $data->appointment_id }}">
                     <h3 class="text-light ml-3">Edit an Appointment</h3>
                     <div>
                             <div class="input-group mb-3">
