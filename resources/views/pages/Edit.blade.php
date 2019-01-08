@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-6 col-sm-12 col-lg-9">
                 <div class="mt-2">
-                    <form method="POST" action="/appointments/edit">
+                    <form id="edit_event">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="{{ $data->id }}">
                     <h3 class="text-light ml-3">Edit an Appointment</h3>
@@ -78,4 +78,24 @@
             </div>
         </div>
     </div>
+    <script>
+    
+    $('#edit_event').ajaxForm({
+        url: "/appointments/edit",
+        type: "POST",
+        success: function(response){
+            response = JSON.parse(response)
+            if(response.success  == 1){
+                toastr.success("Event update success");
+            } 
+            else{
+                toastr.danger("Something went wrong");
+            }
+        }
+    });
+
+
+    </script>
+
+
 @endsection
