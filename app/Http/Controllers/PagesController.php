@@ -36,6 +36,11 @@ class PagesController extends Controller
         echo $data;
     }
 
+    public function FetchPost( Request $req ) {
+        // save sent notifs to db
+        // tanginah mo ikaw na bahala 
+    }
+
     public function Dash( Request $req ){        
         return view('pages.Dash');
     }

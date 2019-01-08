@@ -20,7 +20,7 @@ setInterval( function() {
 				}, err => {
 					sent.push( {
 						uid: cur.user_id,
-						aid: cur.appointment_id	
+						aid: cur.appointment_id
 					})
 				})
 			} else {
@@ -28,4 +28,4 @@ setInterval( function() {
 			}
 		})
 	})
-}, 2000 )
+}, 3000 )
