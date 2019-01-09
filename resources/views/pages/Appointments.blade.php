@@ -13,22 +13,42 @@
 					<th scope="col">When</th>
 					<th scope="col">Status</th>
                 	<th scope="col">Action</th>
-                	@foreach( $data as $row )
-                		<tr>
-                            <td>{{ $row->name }}</td>
-                            <td>{{ $row->date }}</td>
-                            @if( $row->date > \Carbon\Carbon::now())
-                                <td>Up-coming</td>
-                            @elseif( $row->date < \Carbon\Carbon::now())
-                                <td>Finished</td>
-                            @elseif( $row->date == \Carbon\Carbon::now())
-                                <td>Now</td>
-                            @endif 
-                			<td><a href="/appointments/edit?id={{ $row->id }}" class="btn btn-warning btn-sm">Edit</a>  <button type="button" onclick="delrec( {{ $row->id }} )" class="btn btn-danger btn-sm">Delete</button></td>
-                		</tr>
-                	@endforeach
+                    <tbody id="data">
+                		
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <script>
+        $( document ).ready( e => {
+            gres = ""
+            setInterval( check, 1000 )
+        })
+
+        function check() {
+            console.log( "Entered sync" );
+            $.ajax({
+                url: "/eventsfetch",
+                success: function( res ) {
+                    console.log( res )
+                    if( gres != res ) {
+                        gres = res
+                        res = JSON.parse( res );
+                        $( "#data" ).text( "" );
+                        res.forEach( cur => {
+                            $( "#data" ).append( `
+                                <tr>
+                                    <td>${ cur.name }</td>
+                                    <td>${ cur.date }</td>
+                                    <td>${ cur.status }</td> 
+                                    <td><a href="/appointments/edit?id=${ cur.appointment_id }" class="btn btn-warning btn-sm">Edit</a>  <button type="button" onclick="delrec( ${ cur.appointment_id } )" class="btn btn-danger btn-sm">Delete</button></td>
+                                </tr>
+                            `);
+                        });
+                    }
+                }
+            });
+        }
+    </script>
 @endsection

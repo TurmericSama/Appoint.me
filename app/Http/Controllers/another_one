@@ -1,0 +1,56 @@
+create_date
+deadline
+status
+title
+description
+
+repeating_value
+repeating_type
+
+repeating_value		repeating_type
+7 					day
+7 					date
+12 					time-pm
+
+
+
+
+SELECT * FROM tasks WHERE deadline > NOW() 
+AND status != 0 and 
+repeating_type='day' and 
+repeating_value=8
+
+
+SELECT * FROM tasks WHERE deadline > NOW() 
+AND status != 0 and 
+repeating_type='day' and 
+repeating_value=8
+
+
+SELECT * FROM tasks WHERE deadline > NOW() 
+AND status != 0 and 
+repeating_type='day' and 
+repeating_value=8
+
+
+=========================================
+
+
+
+
+
+
+
+setInterval(function(
+
+fetch ajax rest api request /GET pendingtasks
+
+
+
+
+POST => endpoint
+POST => snooze / status
+
+
+
+),1000)

@@ -13,16 +13,6 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <h3 class="text-dark ml-3 mb-5">Add an Appointment</h3>
                     <div>
-                            
-                        <div class="input-field ">
-                            <input id="first_name" type="text" class="validate">
-                            <label for="first_name">First Name</label>
-                        </div>
-                        <div class="input-field">
-                            <input id="last_name" type="text" class="validate">
-                            <label for="last_name">Last Name</label>
-                        </div>
-
                         <div class="input-field">
                             <input type="text" name="ename" id="ename" required>
                             <label for="ename">Event Name</label>
@@ -40,15 +30,15 @@
                             <label for="elocation">Event Location</label>
                         </div>
                         <div class="input-field">
-                            <input type="text" name="edate" id="edate" class="datepicker">
+                            <input type="date" name="date" id="date">
                             <label for="edate">Event Date</label>
                         </div>
-                        <div class="chips">
-                            <input class="custom-class">
+                        <div>
+                            
                         </div>
                         <input type="text" name="stime" id="stime" class="datepicker">
                         <div class="input-field">
-                            <input type="text" name="edate" id="edate" class="timepicker">
+                            <input type="time" name="etime" id="etime" class="timepicker">
                             <label for="edate">End Time</label>
                         </div>
                         <legend>Repeat</legend>
@@ -95,7 +85,7 @@
         </div>
     </div>
     <script>
-        $( "#add_form" ).ajaxForm({
+        $( "#add_event" ).ajaxForm({
             url: "/appointments/add",
             type: "post",
             success: function( res ) {

@@ -79,18 +79,4 @@
             alert('Operation canceled');
         }
     }
-
-    $('#add_event').ajaxForm({
-        url: "/appointments/add",
-        type: "POST",
-        success: function(response){
-            response = JSON.parse(response)
-            if(response.success  == 1){
-                toastr.success("Event creation success");
-            } 
-            else{
-                toastr.danger("Something went wrong");
-            }
-        }
-    });
 </script>
