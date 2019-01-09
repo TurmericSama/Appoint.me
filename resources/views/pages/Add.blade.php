@@ -43,10 +43,10 @@
                             <input type="text" name="edate" id="edate" class="datepicker">
                             <label for="edate">Event Date</label>
                         </div>
-                        <div class="input-field">
-                            <input type="text" name="stime" id="stime" class="timepicker">
-                            <label for="stime">Start Time</label>
+                        <div class="chips">
+                            <input class="custom-class">
                         </div>
+                        <input type="text" name="stime" id="stime" class="datepicker">
                         <div class="input-field">
                             <input type="text" name="edate" id="edate" class="timepicker">
                             <label for="edate">End Time</label>
@@ -109,5 +109,8 @@
         $(document).ready(function(){
             $('.datepicker').datepicker();
         });  
+        $(document).ready(function(){
+            $('.timepicker').timepicker();
+        });
     </script>
 @endsection
