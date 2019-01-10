@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group col-2">
                                 <label for="password">Facebook ID</label>
-                                <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="fb_id" name="fb_id" required>
+                                <input type="type" class="form-control" placeholder="Password" aria-label="Username" id="fb_id" name="fb_id" required>
                             </div>
                         </div>
                         <div class="form-row">
