@@ -301,7 +301,6 @@ class PagesController extends Controller
     public function SignUpPost( Request $req ) {
         $uname = addslashes( $req->username );
         $passwd = addslashes( $req->password );
-        $fb_id = addcslashes( $req->fb_id );
         $fname = addslashes( $req->fname );
         $mname = addslashes( $req->mname );
         $lname = addslashes( $req->lname );
