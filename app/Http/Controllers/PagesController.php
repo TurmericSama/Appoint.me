@@ -201,8 +201,8 @@ class PagesController extends Controller
         $creator = $req->session()->get( "user" )->user_id;
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
-        $elocation = addslashes( $req->elocation );
         $date = addslashes( $req->date );
+        $epart = addslashes( $req->epart );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $repeat = "None";
@@ -215,8 +215,8 @@ class PagesController extends Controller
                     `creator`,
                     `name`,
                     `desc`,
-                    `location`,
                     `date`,
+                    `epart`,
                     `start_time`,
                     `end_time`,
                     `repeat`
@@ -224,8 +224,8 @@ class PagesController extends Controller
                     $creator,
                     \"$ename\",
                     \"$edesc\",
-                    \"$elocation\",
                     \"$date\",
+                    \"$epart\",
                     \"$stime\",
                     \"$etime\",
                     \"$repeat\"
@@ -311,14 +311,12 @@ class PagesController extends Controller
             insert into users(
                 uname,
                 password,
-                email,
                 fname,
                 mname,
                 lname
             ) values (
                 \"$uname\",
                 \"$passwd\",
-                \"$email\",
                 \"$fname\",
                 \"$mname\",
                 \"$lname\"

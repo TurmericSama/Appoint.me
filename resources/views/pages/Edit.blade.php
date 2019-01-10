@@ -23,11 +23,11 @@
                                 </div>
                                     <textarea name="edesc" placeholder=" Guests:" class="form-control" rows="5" style="resize:none;">{{ $data->desc }}</textarea>
                               </div>
-                            <div class="input-group mb-3">
+                              <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Location</span>
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
-                                    <input type="text" class="form-control" placeholder="Ex. Camille and Ed's Wedding Anniversary" name="elocation" value="{{ $data->location }}">
+                               <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea>
                             </div>
                             <div class="input-group mb-3">
                                 <input type="date" name="date" id="date" class="form-control" value="{{ $data->date }}">
@@ -39,7 +39,7 @@
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
                             <div class="form-check-inline">
-                                <input class="form-check-input" type="radio" name="repeat" id="radio1" value="None" @if( $data->repeat == "None" ) checked @endif>
+                                <input class="form-check-input" type="radio" name="repeat" id="radio1" value="None" @if( $data->repeat == "None" ) checked @endif checked>
                                 <label class="form-check-label" for="radio1">
                                   None
                                 </label>
@@ -94,6 +94,7 @@
         }
     });
 
+    if()
 
     </script>
 

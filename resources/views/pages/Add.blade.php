@@ -10,72 +10,65 @@
             <div class="col-md-11 col-sm-12 col-lg-9">
                 <div class="mt-2">
                     <form id="add_event">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <h3 class="text-dark ml-3 mb-5">Add an Appointment</h3>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <h3 class="text-light ml-3 mb-3">Add an Appointment</h3>
                     <div>
-                        <div class="input-field">
-                            <input type="text" name="ename" id="ename" required>
-                            <label for="ename">Event Name</label>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Event Name</span>
+                            </div>
+                            <input type="text" class="form-control" name="ename" id="ename" placeholder="Ex.: Kalasag: 13th meetup">
                         </div>
-                        <div class="input-field">
-                            <textarea name="edesc" id="edesc" class="materialize-textarea"></textarea>
-                            <label for="edesc">Event Desc</label>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Event Description</span>
+                            </div>
+                            <textarea name="edesc" id="edesc" cols="30" rows="5" class="form-control" style="resize:none;"></textarea>
                         </div>
-                        <div class="input-field">
-                            <textarea name="eguests" id="eguests" class="materialize-textarea"></textarea>
-                            <label for="eguests">Event Guests</label>
+                        <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
+                                </div>
+                               <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea>
+                            </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
+                            </div>
+                            <input type="date" name="date" id="date" class="form-control col-2">
                         </div>
-                        <div class="input-field">
-                            <textarea name="elocation" id="elocation" class="materialize-textarea"></textarea>
-                            <label for="elocation">Event Location</label>
-                        </div>
-                        <div class="input-field">
-                            <input type="date" name="date" id="date">
-                            <label for="edate">Event Date</label>
-                        </div>
-                        <div>
-                            
-                        </div>
-                        <input type="text" name="stime" id="stime" class="datepicker">
-                        <div class="input-field">
-                            <input type="time" name="etime" id="etime" class="timepicker">
-                            <label for="edate">End Time</label>
-                        </div>
-                        <legend>Repeat</legend>
+                        <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
+                                </div>
+                               <input type="time" name="stime" id="stime" class="form-control col-1">
+                               <input type="time" name="etime" id="etime" class="form-control col-1">
+                            </div>
+                        <legend class="text-light">Repeat</legend>
                         <div class="mb-3">
-                            <p>
-                                <label>
-                                    <input name="repeat" type="radio" id="radio1" checked/>
-                                    <span class="text-dark">None</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="repeat" id="radio2" type="radio"/>
-                                    <span class="text-dark">On</span>
-                                </label>
-                            </p>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="repeat" id="radio1" class="custom-control-input" checked>
+                                <label for="radio1" class="custom-control-label">None</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="repeat" id="radio2" class="custom-control-input">
+                                <label for="radio2" class="custom-control-label">Repeat</label>
+                            </div>
                         </div>
                         <div id="options" class="mb-3">
-                        <legend>Repeat When</legend>
-                            <p>
-                                <label>
-                                    <input name="repeatwhen" id="rep" type="radio"/>
-                                    <span class="text-dark">Daily</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="group1" id="rep" type="radio"/>
-                                    <span class="text-dark">Weekly</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="group1" id="rep" type="radio"/>
-                                    <span class="text-dark">Monthly</span>
-                                </label>
-                            </p>
+                        <legend class="text-light">Repeat When</legend>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="repeatwhen" id="radio3" value="daily" class="custom-control-input">
+                            <label for="radio1" class="custom-control-label">Daily</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="repeatwhen" id="radio4" value="weekly" class="custom-control-input">
+                            <label for="radio1" class="custom-control-label">Weekly</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="repeatwhen" id="radio5" value="monthly" class="custom-control-input">
+                            <label for="radio1" class="custom-control-label">Monthly</label>
+                        </div>
                         </div>
                             <input type="submit" value="Submit" class="btn btn-primary">
                     </form>
@@ -87,20 +80,16 @@
     <script>
         $( "#add_event" ).ajaxForm({
             url: "/appointments/add",
-            type: "post",
+            type: "POST",
             success: function( res ) {
                 res = JSON.parse( res )
                 if( res.success == 1 )
-                    window.location = "/appointments"
+                    toastr.success('Event creation successful');
                 else
-                    alert( "Adding failed successfuly" )
+                    toastr.danger('Something went wrong');
             }
         })
-        $(document).ready(function(){
-            $('.datepicker').datepicker();
-        });  
-        $(document).ready(function(){
-            $('.timepicker').timepicker();
-        });
+
+        $('#epart').tokenfield()
     </script>
 @endsection

@@ -18,12 +18,11 @@ class CreateAppointmentsTable extends Migration
             $table->integer( "creator" )->references( "user_id" )->on( "users" );
             $table->string('name');
             $table->mediumtext('desc');
-            $table->mediumtext('location');
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->timestamps();
             $table->string('repeat');
+            $table->timestamps();
         });
     }
 

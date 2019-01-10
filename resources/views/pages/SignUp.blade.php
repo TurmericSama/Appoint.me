@@ -16,13 +16,7 @@
 </head>
 <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                <a style="color:green;" class="navbar-brand" href="/index.php">Appoint.me</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>            
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/login'">Login</button>
-                </div>
+                <a style="color:green;" class="navbar-brand" href="/index.php">Appoint.me</a>            
             </nav>
     <div class="container-fluid">
         <div class="row">
@@ -42,10 +36,6 @@
                             <div class="form-group col-2">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="password" name="password" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="E-mail">E-mail</label>
-                                <input type="text" class="form-control" placeholder="E-mail" aria-label="Username" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="form-row">
@@ -74,8 +64,10 @@
             type: "POST",
             success: function( res ) {
                 res = JSON.parse( res )
-                if( res.success == 1 )
+                if( res.success == 1 ){
                     toastr.success( "Signup successful" )
+                    window.location = '/login'
+                }
                 else
                     toastr.danger( "Something went wrong" )
             }
