@@ -37,15 +37,15 @@
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="password" name="password" required>
                             </div>
+                            <div class="form-group col-2">
+                                <label for="password">Facebook ID</label>
+                                <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="fb_id" name="fb_id" required>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-3">
                                 <label for="fname">Firstname</label>
                                 <input type="text" class="form-control" placeholder="First Name" aria-label="Username" id="fname" name="fname" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="mname">Middlename</label>
-                                <input type="text" class="form-control" placeholder="Middle Name" aria-label="Username" id="mname" name="mname" required>
                             </div>
                             <div class="form-group col-3">
                                 <label for="lname">Lastname</label>
