@@ -202,7 +202,6 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $date = addslashes( $req->date );
-        $epart = addslashes( $req->epart );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $repeat = "None";
@@ -225,7 +224,6 @@ class PagesController extends Controller
                     \"$ename\",
                     \"$edesc\",
                     \"$date\",
-                    \"$epart\",
                     \"$stime\",
                     \"$etime\",
                     \"$repeat\"
@@ -304,7 +302,7 @@ class PagesController extends Controller
         $fname = addslashes( $req->fname );
         $mname = addslashes( $req->mname );
         $lname = addslashes( $req->lname );
-        $fb_id = addslashes( $req->facebook_id );
+        $fb_id = addslashes( $req->fb_id );
 
         $q = "
             insert into users(
