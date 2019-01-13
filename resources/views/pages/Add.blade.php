@@ -92,36 +92,18 @@
             }
         })
 
-        $( "#epart" ).keypress( () => {
-            console.log( "KEY DOWN TRIGGERED" )
-            v = $( "#epart" ).val().split( ", " )            
-            search = v[ v.length - 1 ]            
-            $.ajax({
-                type: "GET",
-                url: "/tokenfieldget?data=" + search,
-                success: function ( res ) {
-                    suggests = []
-                    res = JSON.parse(res)
-                    res.forEach( cur => {
-                        suggests.push( cur.name )
-                    })
-                    $('#epart').tokenfield({
-                        autocomplete: {
-                            source: suggests,
-                            delay: 100
-                        },
-                        showAutocompleteOnFocus: false
-                    })
-                }
-            })            
-        })
 
-        $('#epart').on('tokenfield:createtoken', function (event) {
-	       var existingTokens = $("#epart").tokenfield('getTokens');
-	       $.each(existingTokens, function(index, token) {
-		   if (token.value === event.attrs.value)
-			 event.preventDefault();
-	       });
-        });
+        $( "#epart" ).tokenfield({
+            autocomplete: {
+                source: ( req, res ) => {                    
+                    jQuery.get( "/tokenfieldget", ( data ) => {
+                        data = JSON.parse( data )
+                        res( data )
+                    })
+                },
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        })
     </script>
 @endsection
