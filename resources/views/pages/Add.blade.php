@@ -92,54 +92,36 @@
             }
         })
 
-<<<<<<< HEAD
-        $('#epart').tokenfield({
-            autocomplete: {
-                source: [ "larry gadon", "mar roxas", "8layer" ],
-                delay: 100
-            },
-            showAutocompleteOnFocus: false
-        })
-=======
-        $('#epart').change(function masaya(source){
-                var val =  $('#epart').val()
-                val = val.split( ", " )
-                var data = val[val.length -1]
-                return data
-            }        
-        )
-
-        $('#epart').tokenfield({
-            autocomplete: {
-                source: $.ajax({
-                    type: "GET",
-                    url: "/tokenfieldget",
-                    data: {
-                        data:
-                    },
-                    success: function (response) {
-                        response = JSON.parse(response)
-                        console.log(response)
-                        var source = []
-                        response.forEach( cur => {
-                            source.push(cur.name)
-                        })
-                        console.log(source)
-                        return source
-                    }
-                }),
-                delay: 100
-            },
-            showAutocompleteOnFocus: true
+        $( "#epart" ).keypress( () => {
+            console.log( "KEY DOWN TRIGGERED" )
+            v = $( "#epart" ).val().split( ", " )            
+            search = v[ v.length - 1 ]            
+            $.ajax({
+                type: "GET",
+                url: "/tokenfieldget?data=" + search,
+                success: function ( res ) {
+                    suggests = []
+                    res = JSON.parse(res)
+                    res.forEach( cur => {
+                        suggests.push( cur.name )
+                    })
+                    $('#epart').tokenfield({
+                        autocomplete: {
+                            source: suggests,
+                            delay: 100
+                        },
+                        showAutocompleteOnFocus: false
+                    })
+                }
+            })            
         })
 
         $('#epart').on('tokenfield:createtoken', function (event) {
-	var existingTokens = $(this).tokenfield('getTokens');
-	$.each(existingTokens, function(index, token) {
-		if (token.value === event.attrs.value)
-			event.preventDefault();
-	});
-});
->>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
+	       var existingTokens = $("#epart").tokenfield('getTokens');
+	       $.each(existingTokens, function(index, token) {
+		   if (token.value === event.attrs.value)
+			 event.preventDefault();
+	       });
+        });
     </script>
 @endsection
