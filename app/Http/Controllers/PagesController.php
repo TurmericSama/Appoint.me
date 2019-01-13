@@ -36,6 +36,10 @@ class PagesController extends Controller
         echo $data;
     }
 
+    public function Sent( Request $req ) {
+        // get sent notifs
+    }
+
     public function FetchPost( Request $req ) {
         // save sent notifs to db
         // tanginah mo ikaw na bahala 
@@ -202,39 +206,33 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $date = addslashes( $req->date );
-        $epart = addslashes( $req->epart );
+        $epart = $req->epart;
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
-
-        $query = "
-            insert into
-                appointments(
-                    `creator`,
-                    `name`,
-                    `desc`,
-                    `date`,
-                    `epart`,
-                    `start_time`,
-                    `end_time`,
-                    `repeat`
-                ) values(
-                    $creator,
-                    \"$ename\",
-                    \"$edesc\",
-                    \"$date\",
-                    \"$epart\",
-                    \"$stime\",
-                    \"$etime\",
-                    \"$repeat\"
-                )
-        ";
-
+        
         $success = 0;
-        if( DB::insert( $query ) )
+        $id = DB::table( "appointments" )->insertId([
+            "creator" => $creator,
+            "name" => $ename,
+            "desc" => $edesc,
+            "date" => $date,
+            "start_time" => $stime,
+            "end_time" => $etime,
+            "repeat" => $repeat
+        ]);
+        if( $id ) {
+            foreach( $epart as $x ) {
+                DB::table( "appointments" )->insert([
+                    "appointment_id" => $id,
+                    "user_id" => addslashes( $x ),
+                    "for_date" => "now()"
+                ]);
+            }
             $success = 1;
+        }
         $json = [ "success" => $success ];
         echo json_encode( $json );
     }

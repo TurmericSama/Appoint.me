@@ -90,6 +90,12 @@
             }
         })
 
-        $('#epart').tokenfield()
+        $('#epart').tokenfield({
+            autocomplete: {
+                source: [ "larry gadon", "mar roxas", "8layer" ],
+                delay: 100
+            },
+            showAutocompleteOnFocus: false
+        })
     </script>
 @endsection

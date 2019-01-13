@@ -7,7 +7,7 @@ setInterval( function() {
 		data.forEach( cur => {
 			if( sent.findIndex( x => x.uid == cur.user_id && x.aid == cur.appointment_id ) == -1 ) {
 				console.log( "ENTERED TRUE" )
-				sent.push( {
+				sent.push( { 
 					uid: cur.user_id,
 					aid: cur.appointment_id
 				})
@@ -27,4 +27,4 @@ setInterval( function() {
 			}
 		})
 	})
-}, 3000 )
+}, 1000 )
