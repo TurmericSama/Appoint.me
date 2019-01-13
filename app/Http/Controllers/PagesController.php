@@ -36,6 +36,12 @@ class PagesController extends Controller
         echo $data;
     }
 
+    public function tokenfieldget( Request $req ){
+        $var = $req->data;
+        $data = json_encode( DB::select("select concat(fname,\" \",lname) as name from users where concat(fname,\" \",lname) like \"%$var%\""));
+        echo $data;
+    }
+
     public function FetchPost( Request $req ) {
         // save sent notifs to db
         // tanginah mo ikaw na bahala 

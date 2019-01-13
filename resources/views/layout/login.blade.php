@@ -24,9 +24,9 @@
                 <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}">
                 <input class="form-control mr-sm-2" type="text" placeholder="Username" id="uname" name="username" required>
                 <input class="form-control mr-sm-2" type="password" placeholder="Password" id="pass" name="password" required>
-                <button class="btn btn-outline-success my-2 my-sm-0">Login</button>                
+                <button class="btn btn-outline-success my-2 my-sm-0">Login</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/signup'">Signup</button>
             </form>
-            <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/signup'">Signup</button>
         </div>
     </nav>
     <div class="container-fluid">
