@@ -306,7 +306,6 @@ class PagesController extends Controller
         $uname = addslashes( $req->username );
         $passwd = addslashes( $req->password );
         $fname = addslashes( $req->fname );
-        $mname = addslashes( $req->mname );
         $lname = addslashes( $req->lname );
         $fb_id = addslashes( $req->fb_id );
 
