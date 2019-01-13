@@ -20,6 +20,7 @@ Route::get( "/dashfetch", "PagesController@DashFetch" );
 Route::get( "/eventsfetch", "PagesController@EventsFetch" );
 Route::get( "/fetch", "PagesController@Fetch" );
 
+Route::get("/tokenfieldget","PagesController@tokenfieldget");
 Route::get('/appointments', 'PagesController@Events');
 Route::get('/user','PagesController@User');
 Route::get('/login', 'PagesController@Login');

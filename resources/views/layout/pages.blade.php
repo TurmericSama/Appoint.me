@@ -11,7 +11,10 @@
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 <link rel="stylesheet" href="{{asset('css/bootstrap-tokenfield.min.css')}}">
+<<<<<<< HEAD
 <link rel="stylesheet" href="{{asset('css/tokenfield-typeahead.min.css')}}">
+=======
+>>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
 <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>

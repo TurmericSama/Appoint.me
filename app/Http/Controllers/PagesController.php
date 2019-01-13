@@ -36,8 +36,15 @@ class PagesController extends Controller
         echo $data;
     }
 
+<<<<<<< HEAD
     public function Sent( Request $req ) {
         // get sent notifs
+=======
+    public function tokenfieldget( Request $req ){
+        $var = $req->data;
+        $data = json_encode( DB::select("select concat(fname,\" \",lname) as name from users where concat(fname,\" \",lname) like \"%$var%\""));
+        echo $data;
+>>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
     }
 
     public function FetchPost( Request $req ) {
@@ -206,13 +213,42 @@ class PagesController extends Controller
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $date = addslashes( $req->date );
+<<<<<<< HEAD
         $epart = $req->epart;
+=======
+>>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
+<<<<<<< HEAD
         
+=======
+
+        $query = "
+            insert into
+                appointments(
+                    `creator`,
+                    `name`,
+                    `desc`,
+                    `date`,
+                    `epart`,
+                    `start_time`,
+                    `end_time`,
+                    `repeat`
+                ) values(
+                    $creator,
+                    \"$ename\",
+                    \"$edesc\",
+                    \"$date\",
+                    \"$stime\",
+                    \"$etime\",
+                    \"$repeat\"
+                )
+        ";
+
+>>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
         $success = 0;
         $id = DB::table( "appointments" )->insertId([
             "creator" => $creator,
@@ -301,7 +337,7 @@ class PagesController extends Controller
         $passwd = addslashes( $req->password );
         $fname = addslashes( $req->fname );
         $lname = addslashes( $req->lname );
-        $fb_id = addslashes( $req->facebook_id );
+        $fb_id = addslashes( $req->fb_id );
 
         $q = "
             insert into users(

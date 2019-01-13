@@ -29,7 +29,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
-                               <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea>
+                               {{-- <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea> --}}
+                               <input type="text" name="epart" id="epart" placeholder="Participants">
                             </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
@@ -74,6 +75,7 @@
                     </form>
                     </div>
                 </div>
+                <button onclick="masaya();">Masaya</button>
             </div>
         </div>
     </div>
@@ -90,6 +92,7 @@
             }
         })
 
+<<<<<<< HEAD
         $('#epart').tokenfield({
             autocomplete: {
                 source: [ "larry gadon", "mar roxas", "8layer" ],
@@ -97,5 +100,46 @@
             },
             showAutocompleteOnFocus: false
         })
+=======
+        $('#epart').change(function masaya(source){
+                var val =  $('#epart').val()
+                val = val.split( ", " )
+                var data = val[val.length -1]
+                return data
+            }        
+        )
+
+        $('#epart').tokenfield({
+            autocomplete: {
+                source: $.ajax({
+                    type: "GET",
+                    url: "/tokenfieldget",
+                    data: {
+                        data:
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response)
+                        console.log(response)
+                        var source = []
+                        response.forEach( cur => {
+                            source.push(cur.name)
+                        })
+                        console.log(source)
+                        return source
+                    }
+                }),
+                delay: 100
+            },
+            showAutocompleteOnFocus: true
+        })
+
+        $('#epart').on('tokenfield:createtoken', function (event) {
+	var existingTokens = $(this).tokenfield('getTokens');
+	$.each(existingTokens, function(index, token) {
+		if (token.value === event.attrs.value)
+			event.preventDefault();
+	});
+});
+>>>>>>> d28318b1d65a7caa1a06407c08a7ac9b554df486
     </script>
 @endsection
