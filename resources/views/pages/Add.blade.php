@@ -92,32 +92,33 @@
             }
         })
 
-        $('#epart').change(function masaya(){
+        $('#epart').change(function masaya(source){
                 var val =  $('#epart').val()
                 val = val.split( ", " )
                 var data = val[val.length -1]
-                console.log(data)
-                    $.ajax({
-                    type: "GET",
-                    url: "/tokenfieldget",
-                    data: {
-                        data: data
-                    },
-                    success: function (response) {
-                        response = JSON.parse(response)
-                        console.log(response)
-                        response.forEach( cur => {
-                            source.push(cur.name)
-                        })
-                        return source
-                    }
-                })
+                return data
             }        
         )
 
         $('#epart').tokenfield({
             autocomplete: {
-                source: source,
+                source: $.ajax({
+                    type: "GET",
+                    url: "/tokenfieldget",
+                    data: {
+                        data:
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response)
+                        console.log(response)
+                        var source = []
+                        response.forEach( cur => {
+                            source.push(cur.name)
+                        })
+                        console.log(source)
+                        return source
+                    }
+                }),
                 delay: 100
             },
             showAutocompleteOnFocus: true
