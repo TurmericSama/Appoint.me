@@ -214,6 +214,7 @@ class PagesController extends Controller
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $epart = addslashes($req->epart);
+        $epart = explode( ", ", $epart );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -250,9 +251,11 @@ class PagesController extends Controller
         ]);
         if( $id ) {
             foreach( $epart as $x ) {
+                $x = addslashes( $x );
+                $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
                 DB::table( "appointments" )->insert([
                     "appointment_id" => $id,
-                    "user_id" => addslashes( $x ),
+                    "user_id" => $uid,
                     "for_date" => "now()"
                 ]);
             }
