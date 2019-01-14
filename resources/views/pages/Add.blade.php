@@ -29,7 +29,6 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
-                               {{-- <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea> --}}
                                <input type="text" name="epart" id="epart" placeholder="Participants">
                             </div>
                         <div class="input-group input-group-sm mb-3">
@@ -92,12 +91,21 @@
             }
         })
 
+        function masaya(){
+            var hello = $('#epart').val()
+            console.log(typeof hello)
+        }
 
         $( "#epart" ).tokenfield({
             autocomplete: {
                 source: ( req, res ) => {                    
                     jQuery.get( "/tokenfieldget", ( data ) => {
                         data = JSON.parse( data )
+                        arr = []
+                        data.forEach( cur => {
+                            arr.push( cur.name )
+                        });
+                        data = arr
                         res( data )
                     })
                 },
@@ -105,5 +113,14 @@
             },
             showAutocompleteOnFocus: true
         })
+
+
+        $('#epart').on('tokenfield:createtoken', function (event) {
+	        var existingTokens = $(this).tokenfield('getTokens');
+	        $.each(existingTokens, function(index, token) {
+		        if (token.value === event.attrs.value)
+			        event.preventDefault();
+	        });
+        });
     </script>
 @endsection

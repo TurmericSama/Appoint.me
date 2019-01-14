@@ -42,9 +42,12 @@ class PagesController extends Controller
         echo $data;
     }
 
+    public function GetSent( Request $req ){
+        
+    }
+
     public function FetchPost( Request $req ) {
         // save sent notifs to db
-        // tanginah mo ikaw na bahala 
     }
 
     public function Dash( Request $req ){        
@@ -210,6 +213,7 @@ class PagesController extends Controller
         $date = addslashes( $req->date );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
+        $epart = addslashes($req->epart);
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -220,7 +224,6 @@ class PagesController extends Controller
                     `name`,
                     `desc`,
                     `date`,
-                    `epart`,
                     `start_time`,
                     `end_time`,
                     `repeat`
@@ -236,7 +239,7 @@ class PagesController extends Controller
         ";
 
         $success = 0;
-        $id = DB::table( "appointments" )->insertId([
+        $id = DB::table( "appointments" )->insertGetId([
             "creator" => $creator,
             "name" => $ename,
             "desc" => $edesc,
