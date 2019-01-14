@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 <link rel="stylesheet" href="{{asset('css/bootstrap-tokenfield.min.css')}}">
-<link rel="stylesheet" href="{{asset('css/tokenfield-typeahead.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
@@ -69,14 +68,26 @@
             } else {
                  $('#options').show();
             }
-        })
-
-        
+        })   
     });
 
     function delrec( id ) {
         if( confirm('Are you sure you want to delete this Event') ) {
-            window.location = "/appointments/delete?id=" + id;
+            $.ajax({
+                type: "GET",
+                url: "appointments/delete",
+                data: {
+                    id : id
+                },
+                success: function (response) {
+                    res = JSON.parse(response)
+                    if( res.success == 1){
+                        toastr.success('Operation success');
+                    } else{
+                        toastr.danger('Operation failed successfully');
+                    }
+                }
+            });
         } else{
             alert('Operation canceled');
         }

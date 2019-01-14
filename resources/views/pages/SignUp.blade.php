@@ -16,38 +16,37 @@
 </head>
 <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-                <a style="color:green;" class="navbar-brand" href="/index.php">Appoint.me</a>            
+                <a style="color:green;" class="navbar-brand" href="/login">Appoint.me</a>            
             </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1">
-
+            <div class="col-md-2">
             </div>
-            <div class="col-md-11">
+            <div class="col-md-8 col-xs-9">
                 <div><h3 class="mt-3 mb-3 text-light">Signup</h3></div>
-                <div>
+                <div class="p-3" style="background-color: white;">
                     <form id="add_form">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-row">
-                            <div class="form-group col-2">
+                            <div class="form-group col-xs-3">
                                 <label for="username">Username</label>
                                 <input type="text" class="form-control" placeholder="Username" aria-label="Username" id="username" name="username" required>
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-xs-2">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" placeholder="Password" aria-label="Username" id="password" name="password" required>
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-xs-2">
                                 <label for="password">Facebook ID</label>
                                 <input type="text" class="form-control" placeholder="2023423423445681" id="fb_id" name="fb_id" required maxlength="16">
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-3">
+                            <div class="form-group col-xs-3">
                                 <label for="fname">Firstname</label>
                                 <input type="text" class="form-control" placeholder="First Name" aria-label="Username" id="fname" name="fname" required>
                             </div>
-                            <div class="form-group col-3">
+                            <div class="form-group col-xs-3">
                                 <label for="lname">Lastname</label>
                                 <input type="text" class="form-control" placeholder="Last Name" aria-label="Username" id="lname" name="lname" required>
                             </div>
@@ -55,6 +54,9 @@
                         <input type="submit" value="Create Account" class="btn btn-primary">
                     </form>
                 </div>
+            </div>
+            <div class="col-md-2">
+
             </div>
         </div>
     </div>

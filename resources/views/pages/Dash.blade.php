@@ -29,7 +29,17 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    content
+                    <div id="event-name-div">
+                        <h5>Event Name</h5>
+                        <div id="event-name">
+                        </div>
+                    </div>
+                    <div id="event-desc">
+                        <h6></h6>
+                    </div>
+                    <div id="event-date">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -68,7 +78,22 @@
         }
 
         function eventid(){
-            
+            var masaya = $('#id').val()
+            $('.modal-body').html('')
+            $.ajax({
+                type: "get",
+                url: "/dashgetinfo",
+                data: {
+                    id : masaya
+                },
+                success: function (res) {
+                    res = JSON.parse(res)
+                    res.forEach(cur =>{
+                        $('#event-name').html(cur.name)
+                    })
+                }
+            });
         }
+
     </script>
 @endsection

@@ -43,15 +43,22 @@ class PagesController extends Controller
     }
 
     public function GetSent( Request $req ){
-        
+        $data = json_encode( DB::select("select snotif_id, appointment_id from sent_notifs where for_date = \"date('Y-m-d')\""));
+        echo $data;
     }
 
     public function FetchPost( Request $req ) {
         // save sent notifs to db
     }
 
-    public function Dash( Request $req ){        
+    public function Dash( Request $req ){
         return view('pages.Dash');
+    }
+
+    public function info( Request $req){
+        $id = $req->id;
+        $success = json_encode(DB::select("select * from appointments where appointment_id = $id"));
+        echo $success;
     }
 
     public function DashFetch( Request $req ) {
@@ -253,10 +260,10 @@ class PagesController extends Controller
             foreach( $epart as $x ) {
                 $x = addslashes( $x );
                 $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
-                DB::table( "appointments" )->insert([
+                DB::table( "guests" )->insert([
                     "appointment_id" => $id,
                     "user_id" => $uid,
-                    "for_date" => "now()"
+                    "for_date" => date('Y-m-d')
                 ]);
             }
             $success = 1;

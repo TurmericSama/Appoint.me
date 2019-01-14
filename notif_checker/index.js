@@ -1,5 +1,14 @@
 var req = require( "request" )
 var sent = []
+var psent = []
+
+
+
+
+
+
+
+
 
 setInterval( function() {
 	req( "http://localhost/fetch", ( err, res, body ) => {

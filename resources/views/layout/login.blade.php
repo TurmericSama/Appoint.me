@@ -15,7 +15,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <a style="color:green;" class="navbar-brand" href="/index.php">Appoint.me</a>
+        <a style="color:green;" class="navbar-brand" href="/login">Appoint.me</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>            
@@ -31,15 +31,13 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-10">
+            <div class="col-xl-12 col-md-12 col-sm-12 col-lg-10">
                 <div class="jumbotron jumbotron-fluid">
                     <div class="container">
-                        <h1 class="display-3">Appointment Management System</h1>
+                        <h1 class="display-1">Appointment Management System</h1>
                         <p class="lead">Create and manage personal and group events</p>
                         <hr class="my-2">
-                        <p>Sample lang muna mga ser</p>
                         <p class="lead">
-                            <a class="btn btn-primary btn-lg text-light" role="button">Learn Moar</a>
                         </p>
                     </div>
                 </div>

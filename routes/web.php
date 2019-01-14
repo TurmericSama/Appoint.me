@@ -19,7 +19,7 @@ Route::get('/dash', 'PagesController@Dash' );
 Route::get( "/dashfetch", "PagesController@DashFetch" );
 Route::get( "/eventsfetch", "PagesController@EventsFetch" );
 Route::get( "/fetch", "PagesController@Fetch" );
-
+Route::get('/dashgetinfo', 'PagesController@info');
 Route::get("/tokenfieldget","PagesController@tokenfieldget");
 Route::get('/appointments', 'PagesController@Events');
 Route::get('/user','PagesController@User');
@@ -29,9 +29,8 @@ Route::get('/appointments/add', 'PagesController@Add');
 Route::post('/appointments/add', 'PagesController@AddPost');
 Route::get('/appointments/edit', 'PagesController@Edit');
 Route::post('/appointments/edit', 'PagesController@EditPost');
-Route::get( "/appointments/delete", "PagesController@Delete");	
-
+Route::get( "/appointments/delete", "PagesController@Delete");
+Route::get("/getsent", "PagesController@GetSent");
 Route::get('/signup', 'PagesController@SignUp');
 Route::post( "/signup", "PagesController@SignUpPost" );
-
 Route::get('/logout', 'PagesController@Logout');

@@ -17,6 +17,7 @@ class CreateGuestsTable extends Migration
             $table->increments('id');
             $table->integer( "appointment_id" )->references( "appointment_id" )->on( "appointments" );
             $table->integer( "user_id" )->references( "user_id" )->on( "users" );
+            $table->date('for_date');
             $table->timestamps();
         });
     }

@@ -41,8 +41,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
                                 </div>
-                               <input type="time" name="stime" id="stime" class="form-control col-1">
-                               <input type="time" name="etime" id="etime" class="form-control col-1">
+                               <input type="time" name="stime" id="stime" class="form-control col-2">
+                               <input type="time" name="etime" id="etime" class="form-control col-2">
                             </div>
                         <legend class="text-light">Repeat</legend>
                         <div class="mb-3">
@@ -74,7 +74,6 @@
                     </form>
                     </div>
                 </div>
-                <button onclick="masaya();">Masaya</button>
             </div>
         </div>
     </div>
@@ -91,22 +90,22 @@
             }
         })
 
-        function masaya(){
-            var hello = $('#epart').val()
-            console.log(typeof hello)
-        }
-
         $( "#epart" ).tokenfield({
             autocomplete: {
-                source: ( req, res ) => {                    
-                    jQuery.get( "/tokenfieldget", ( data ) => {
-                        data = JSON.parse( data )
+                source: ( req, res ) => {
+                    var val;
+                    $('#epart').change( function(){
+                        val = $('#epart').val()
+                    })          
+                    jQuery.get( "/tokenfieldget", { data: val }, ( response ) => {
+                        console.log(val)
+                        response = JSON.parse( response )
                         arr = []
-                        data.forEach( cur => {
+                        response.forEach( cur => {
                             arr.push( cur.name )
                         });
-                        data = arr
-                        res( data )
+                        response = arr
+                        res( response )
                     })
                 },
                 delay: 100
