@@ -9,7 +9,7 @@ $sent = [];
 class PagesController extends Controller
 {
     public function __construct() {
-        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch" );
+        $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch", "FetchPost", "GetSent" );
     }
 
     public function Fetch( Request $req ) {
@@ -30,9 +30,7 @@ class PagesController extends Controller
                         c.appointment_id=a.appointment_id and
                         if( c.user_id is not null, c.user_id, a.creator )=b.user_id
         ";
-
         $data = json_encode( DB::select( $query ) );
-
         echo $data;
     }
 
@@ -43,12 +41,26 @@ class PagesController extends Controller
     }
 
     public function GetSent( Request $req ){
-        $data = json_encode( DB::select("select snotif_id, appointment_id from sent_notifs where for_date = \"date('Y-m-d')\""));
-        echo $data;
+        $ret = [];
+        $data = DB::select("select appointment_id, user_id from sent_notifs where for_date=date( now() )");
+        foreach( $data as $x ) {
+            $t = [
+                "uid" => $x->user_id,
+                "aid" => $x->appointment_id
+            ];
+            array_push( $ret, $t );
+        }
+        echo json_encode( [ "sent" => $ret, "csrf_token" => csrf_token() ] );
     }
 
     public function FetchPost( Request $req ) {
-        // save sent notifs to db
+        $query = "
+            insert into 
+                sent_notifs( appointment_id, user_id, for_date )
+            values
+                ( $req->aid, $req->uid, date( now() ) )
+        ";
+        DB::insert( $query );
     }
 
     public function Dash( Request $req ){

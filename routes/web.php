@@ -19,6 +19,7 @@ Route::get('/dash', 'PagesController@Dash' );
 Route::get( "/dashfetch", "PagesController@DashFetch" );
 Route::get( "/eventsfetch", "PagesController@EventsFetch" );
 Route::get( "/fetch", "PagesController@Fetch" );
+Route::post( "/fetchpost", "PagesController@FetchPost" );
 Route::get('/dashgetinfo', 'PagesController@info');
 Route::get("/tokenfieldget","PagesController@tokenfieldget");
 Route::get('/appointments', 'PagesController@Events');
