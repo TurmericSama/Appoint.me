@@ -35,3 +35,6 @@ Route::get("/getsent", "PagesController@GetSent");
 Route::get('/signup', 'PagesController@SignUp');
 Route::post( "/signup", "PagesController@SignUpPost" );
 Route::get('/logout', 'PagesController@Logout');
+Route::get('/bobo', function(){
+    return view("pages.bobo");
+});

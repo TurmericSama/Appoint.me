@@ -13,7 +13,7 @@ class PagesController extends Controller
     }
 
     public function tokenfieldget( Request $req ){
-        $var = $req->data;
+        $var = $req->name;
         $data = json_encode( DB::select("select fname from users where fname like \"%$var%\""));
         echo $data;
     }
@@ -216,7 +216,7 @@ class PagesController extends Controller
 
         $userqres = DB::select( $userq );
         if( $userqres ) {
-            if( $passwd == $userqres[0]->password ) {
+            if( password_verify( $passwd, $userqres[0]->password ) ) {
                 $req->session()->put( "user", $userqres[0] );
                 $success = 1;
             }
@@ -276,7 +276,7 @@ class PagesController extends Controller
         if( $id ) {
             foreach( $epart as $x ) {
                 $x = addslashes( $x );
-                $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
+                $uid = DB::select( "select user_id from users where fname = \"$x\"" )[0]->user_id;
                 DB::table( "guests" )->insert([
                     "appointment_id" => $id,
                     "user_id" => $uid,
@@ -350,11 +350,12 @@ class PagesController extends Controller
 
     public function SignUpPost( Request $req ) {
         $uname = addslashes( $req->username );
-        $passwd = addslashes( $req->password );
+        $passwd = $req->password;
         $fname = $req->fname;
         $lname = $req->lname;
         $fb_id = addslashes( $req->fb_id );
         $full = addslashes($fname ." ". $lname );
+        $passwd = addslashes(password_hash($passwd, PASSWORD_BCRYPT));
 
         $q = "
             insert into users(

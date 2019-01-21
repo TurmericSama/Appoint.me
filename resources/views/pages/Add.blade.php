@@ -90,36 +90,51 @@
             }
         })
 
-        $( "#epart" ).tokenfield({
-            autocomplete: {
-                source: ( req, res ) => {
-                    var val;
-                    $('#epart').change( function(){
-                        val = $('#epart').val()
-                    })          
-                    jQuery.get( "/tokenfieldget", { data: val }, ( response ) => {
-                        console.log(val)
-                        response = JSON.parse( response )
-                        arr = []
-                        response.forEach( cur => {
-                            arr.push( cur.name )
+        function split( val ) {
+            return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+            return split( term ).pop();
+        }
+
+        $('#epart').autocomplete({
+            source: function( req, res){
+                neym = $('#epart').val()
+                neym = split( neym )
+                neym = neym[ neym.length -1]
+                console.log( neym)
+                console.log( $('#epart').val())
+                $.ajax({
+                    type: "get",
+                    url: "/tokenfieldget",
+                    data: {
+                        name : neym
+                    },
+                    success: function (response) {
+                        response = JSON.parse(response)
+                        arr = [] 
+                        response.forEach(cur => {
+                            arr.push( cur.fname)
                         });
-                        response = arr
-                        res( response )
-                    });
-                },
-                delay: 100
+                        res( $.ui.autocomplete.filter( arr, extractLast( req.term ) ) )    
+                    }
+                });
             },
-            showAutocompleteOnFocus: true
-        })
-
-
-        $('#epart').on('tokenfield:createtoken', function (event) {
-	        var existingTokens = $(this).tokenfield('getTokens');
-	        $.each(existingTokens, function(index, token) {
-		        if (token.value === event.attrs.value)
-			        event.preventDefault();
-	        });
+            focus: function() {
+            // prevent value inserted on focus
+            return false;
+            },
+            select: function (event, ui){
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+            }
         });
     </script>
 @endsection
