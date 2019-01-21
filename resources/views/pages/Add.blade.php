@@ -106,7 +106,7 @@
                         });
                         response = arr
                         res( response )
-                    })
+                    });
                 },
                 delay: 100
             },

@@ -16,3 +16,10 @@ body{
     border-left: solid 1px #e9ecef;
     overflow: hidden;
 }
+
+#event-desc-input{
+    border: none;
+    outline: 0px !important;
+    -webkit-appearance: none;
+    resize: none;
+}

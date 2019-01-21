@@ -12,6 +12,13 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch", "FetchPost", "GetSent" );
     }
 
+    public function tokenfieldget( Request $req ){
+        $var = $req->data;
+        $data = json_encode( DB::select("select fname from users where fname like \"%$var%\""));
+        echo $data;
+    }
+    
+    //fetches all events today
     public function Fetch( Request $req ) {
         $query = "
             select
@@ -34,12 +41,7 @@ class PagesController extends Controller
         echo $data;
     }
 
-    public function tokenfieldget( Request $req ){
-        $var = $req->data;
-        $data = json_encode( DB::select("select concat(fname,\" \",lname) as name from users where concat(fname,\" \",lname) like \"%$var%\""));
-        echo $data;
-    }
-
+    //fetches all recorded events that are already sent
     public function GetSent( Request $req ){
         $ret = [];
         $data = DB::select("select appointment_id, user_id from sent_notifs where for_date=date( now() )");
@@ -53,6 +55,7 @@ class PagesController extends Controller
         echo json_encode( [ "sent" => $ret, "csrf_token" => csrf_token() ] );
     }
 
+    //inserts events events that has already occured
     public function FetchPost( Request $req ) {
         $query = "
             insert into 
@@ -63,6 +66,7 @@ class PagesController extends Controller
         DB::insert( $query );
     }
 
+    
     public function Dash( Request $req ){
         return view('pages.Dash');
     }
@@ -118,17 +122,18 @@ class PagesController extends Controller
                 appointments b left join
                 guests a
             on
-                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid
+                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid where b.creator = $uid or a.id = $uid
         ";
 
         $tdata = DB::select( $query );
         $pdata = [];
+
         foreach( $tdata as $row ) {
             $arr = [
                 "id" => $row->appointment_id,
                 "ename" => $row->name,
                 "edate" => $row->date,
-                "status" => $row->status
+                "status" => $row->status,
             ];
             array_push( $pdata, $arr );
         }
@@ -346,23 +351,22 @@ class PagesController extends Controller
     public function SignUpPost( Request $req ) {
         $uname = addslashes( $req->username );
         $passwd = addslashes( $req->password );
-        $fname = addslashes( $req->fname );
-        $lname = addslashes( $req->lname );
+        $fname = $req->fname;
+        $lname = $req->lname;
         $fb_id = addslashes( $req->fb_id );
+        $full = addslashes($fname ." ". $lname );
 
         $q = "
             insert into users(
                 uname,
                 password,
                 facebook_id,
-                fname,
-                lname
+                fname
             ) values (
                 \"$uname\",
                 \"$passwd\",
                 \"$fb_id\",
-                \"$fname\",
-                \"$lname\"
+                \"$full\"
             )
         ";
 

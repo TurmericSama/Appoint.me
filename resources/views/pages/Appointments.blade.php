@@ -8,7 +8,7 @@
                 <div>
                     <h3 class="text-light mt-2">Appointments</h3>
                 </div>
-                <table class="table table-bordeless table-light">
+                <table class="table table-bordeless table-light table-hover">
                 	<th scope="col">Name</th>
 					<th scope="col">When</th>
 					<th scope="col">Status</th>
@@ -35,7 +35,12 @@
                     if( gres != res ) {
                         gres = res
                         res = JSON.parse( res );
-                        $( "#data" ).text( "" );
+                        $( "#data" ).html("");
+                        if(res.length == 0){
+                            $('#data').append(
+                                '<tr><td align="center" colspan="4">Wow, much empty!<td></tr>'
+                            );
+                        }
                         res.forEach( cur => {
                             $( "#data" ).append( `
                                 <tr>
