@@ -12,6 +12,13 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch", "FetchPost", "GetSent" );
     }
 
+    public function tokenfieldget( Request $req ){
+        $var = $req->name;
+        $data = json_encode( DB::select("select fname as label, user_id as value from users where fname like \"%$var%\""));
+        echo $data;
+    }
+    
+    //fetches all events today
     public function Fetch( Request $req ) {
         $query = "
             select
@@ -36,12 +43,7 @@ class PagesController extends Controller
         echo $data;
     }
 
-    public function tokenfieldget( Request $req ){
-        $var = $req->data;
-        $data = json_encode( DB::select("select concat(fname,\" \",lname) as name from users where concat(fname,\" \",lname) like \"%$var%\""));
-        echo $data;
-    }
-
+    //fetches all recorded events that are already sent
     public function GetSent( Request $req ){
         $ret = [];
         $data = DB::select("select appointment_id, user_id from sent_notifs where for_date=date( now() )");
@@ -57,6 +59,7 @@ class PagesController extends Controller
         echo json_encode( $ret );
     }
 
+    //inserts events events that has already occured
     public function FetchPost( Request $req ) {
         $query = "
             insert into 
@@ -67,6 +70,7 @@ class PagesController extends Controller
         DB::insert( $query );
     }
 
+    
     public function Dash( Request $req ){
         return view('pages.Dash');
     }
@@ -122,17 +126,18 @@ class PagesController extends Controller
                 appointments b left join
                 guests a
             on
-                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid
+                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid where b.creator = $uid or a.id = $uid
         ";
 
         $tdata = DB::select( $query );
         $pdata = [];
+
         foreach( $tdata as $row ) {
             $arr = [
                 "id" => $row->appointment_id,
                 "ename" => $row->name,
                 "edate" => $row->date,
-                "status" => $row->status
+                "status" => $row->status,
             ];
             array_push( $pdata, $arr );
         }
@@ -195,8 +200,63 @@ class PagesController extends Controller
         echo $data;
     }
 
-    public function User() {
-        return view('pages.User');
+    public function User( Request $req ) {
+        $id = $req->session()->get( "user" )->user_id;
+        $data =  DB::select("select uname, fname, password from users where user_id = $id")[0];
+        return view('pages.User', [ "data" => $data]);
+    }
+
+    public function UserPost( Request $req ){
+        $id = $req->session()->get( "user" )->user_id;
+        $fname = addslashes($req->name);
+        $uname = addslashes($req->uname);
+        $npass = addslashes($req->npass);
+        $cpass = addslashes($req->cpass);
+
+        //if new and confirm pass is equal and all fields are not the same from database
+        if( $npass == $cpass ){
+            $password = addslashes(password_hash($npass, PASSWORD_BCRYPT));
+            $query1 = DB::table('users')->select('uname')->where('user_id', $id)->value();
+            $query2 = DB::table('users')->select('fname')->where('user_id', $id)->value();
+            if( $uname !== $query1 && $fname !== $query2 )
+            $query3 = DB::table('users')->select('password')->where('user_id', $id)->value();
+            if( !password_verify($npass, $query3) )
+            $query4 = DB::table('users')->where('user_id', $id)->update(array('fname' => $fname, 'uname' => $uname, 'password' => $password));
+            if( $query ){
+                $success = 1;
+            }
+        } //if password is not changed and fname and uname is changed
+          elseif( empty( $npass ) && empty( $cpass ) ){
+            $query1 = DB::table('users')->select('uname')->where('user_id', $id)->value();
+            $query2 = DB::table('users')->select('fname')->where('user_id', $id)->value();
+            if( $uname == $query1 && $fname == $query2 )
+            $query = DB::table('users')->where('user_id', $id)->update(array('fname' => $fname, 'uname' => $uname));
+            if( $query ){
+                $success = 2;
+            }
+        } //if password and fname is not changed but uname is changed
+          elseif( empty( $npass ) && empty( $cpass ) ){
+            $query1 = DB::table('users')->select('uname')->where('user_id', $id)->value();
+            $query2 = DB::table('users')->select('fname')->where('user_id', $id)->value();
+            if( $uname !== $query1 && $fname == $query2 )
+            $query = DB::table('users')->where('user_id', $id)->update(array('uname' => $uname));
+            if($query){
+                $success = 3;
+            }
+        } //if password and uname is not changed but fname is changed
+          elseif( empty( $npass ) && empty( $cpass ) ){
+            $query1 = DB::table('users')->select('uname')->where('user_id', $id)->value();
+            $query2 = DB::table('users')->select('fname')->where('user_id', $id)->value();
+            if( $uname == $query1 && $fname !== $query2 )
+            $query = DB::table('users')->where('user_id', $id)->update(array('uname' => $uname));
+            if($query){
+                $success = 4;
+            }
+        } //if everything else does not apply
+          else{
+            $success = 0;
+        }
+        echo json_encode(["success" => $success]);
     }
 
     public function Login( Request $req ) {
@@ -215,7 +275,7 @@ class PagesController extends Controller
 
         $userqres = DB::select( $userq );
         if( $userqres ) {
-            if( $passwd == $userqres[0]->password ) {
+            if( password_verify( $passwd, $userqres[0]->password ) ) {
                 $req->session()->put( "user", $userqres[0] );
                 $success = 1;
             }
@@ -236,33 +296,18 @@ class PagesController extends Controller
         $date = addslashes( $req->date );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
+<<<<<<< HEAD
         $epart = addslashes($req->epart);
         if( $epart )
             $epart = explode( ", ", $epart );
+=======
+        $epartid = addslashes($req->epartid );
+        $epartid = explode( ",", $epartid );
+>>>>>>> refs/remotes/origin/master
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
-        $query = "
-            insert into
-                appointments(
-                    `creator`,
-                    `name`,
-                    `desc`,
-                    `date`,
-                    `start_time`,
-                    `end_time`,
-                    `repeat`
-                ) values(
-                    $creator,
-                    \"$ename\",
-                    \"$edesc\",
-                    \"$date\",
-                    \"$stime\",
-                    \"$etime\",
-                    \"$repeat\"
-                )
-        ";
-
+  
         $success = 0;
         $id = DB::table( "appointments" )->insertGetId([
             "creator" => $creator,
@@ -274,6 +319,7 @@ class PagesController extends Controller
             "repeat" => $repeat
         ]);
         if( $id ) {
+<<<<<<< HEAD
             if( $epart ) {
                 foreach( $epart as $x ) {
                     $x = addslashes( $x );
@@ -282,9 +328,26 @@ class PagesController extends Controller
                         "appointment_id" => $id,
                         "user_id" => $uid
                     ]);
+=======
+            foreach( $epartid as $x ) {
+                if( !intval($x) ) {
+                    continue;  
+                }
+                $x = addslashes( $x );
+                $query = DB::table('users')->where('user_id', $x)->count();
+                if( $query ){
+                    DB::table( "guests" )->insert([
+                        "appointment_id" => $id,
+                        "user_id" => $x,
+                        "for_date" => date('Y-m-d'),
+                        "created_at" => now()
+                    ]);
+                    $success = 1;
+                } else{
+                    $success = 0;
+>>>>>>> refs/remotes/origin/master
                 }
             }
-            $success = 1;
         }
         $json = [ "success" => $success ];
         echo json_encode( $json );
@@ -292,7 +355,8 @@ class PagesController extends Controller
 
     public function Edit( Request $req ) {
         $id = addslashes( $req->id );
-        $query = "select * from appointments where appointment_id=$id";
+        $query = "select a.*, g.user_id, u.fname from appointments a join guests g on a.appointment_id = g.appointment_id join users u on g.user_id = u.user_id
+        where a.appointment_id=$id";
 
         $data = DB::select( $query )[0];
         return view( "pages.Edit", [
@@ -304,7 +368,8 @@ class PagesController extends Controller
         $id = addslashes( $req->id );
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
-        $elocation = addslashes( $req->elocation );
+        $epartid = $req->epartid;
+        $epartid = explode( ",", $epartid );
         $date = addslashes( $req->date );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
@@ -351,10 +416,12 @@ class PagesController extends Controller
 
     public function SignUpPost( Request $req ) {
         $uname = addslashes( $req->username );
-        $passwd = addslashes( $req->password );
-        $fname = addslashes( $req->fname );
-        $lname = addslashes( $req->lname );
+        $passwd = $req->password;
+        $fname = $req->fname;
+        $lname = $req->lname;
         $fb_id = addslashes( $req->fb_id );
+        $full = addslashes($fname ." ". $lname );
+        $passwd = addslashes(password_hash($passwd, PASSWORD_BCRYPT));
 
         $q = "
             insert into users(
@@ -362,13 +429,13 @@ class PagesController extends Controller
                 password,
                 facebook_id,
                 fname,
-                lname
+                created_at
             ) values (
                 \"$uname\",
                 \"$passwd\",
                 \"$fb_id\",
-                \"$fname\",
-                \"$lname\"
+                \"$full\",
+                now()
             )
         ";
 

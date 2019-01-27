@@ -3,11 +3,13 @@
 @section('content')
     <div class="container-fluid"> 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-lg-12">
-                <input type="text" id="id" hidden>
+            <div class="col-md-3">
                 <div class="mt-2">
                     <h3 class="text-light">Dashboard</h3>
                 </div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-lg-9">
+                <input type="text" id="id" hidden>
                 <table class="table table-bordeless table-light table-hover">
                 	<th scope="col">Name</th>
 					<th scope="col">When</th>
@@ -29,16 +31,18 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <div id="event-name-div">
-                        <h5>Event Name</h5>
-                        <div id="event-name">
+                    <div id="event-name-div" class="mb-3">
+                        <h6>Event Name</h6>
+                        <div id="event-name"class="ml-4">
                         </div>
                     </div>
-                    <div id="event-desc">
-                        <h6></h6>
+                    <div id="event-desc" class="mb-3">
+                        <h6>Event Description</h6>
+                        <div class="input-group ml-4">
+                            <textarea id="event-desc-input" cols="30" readonly></textarea>
+                        </div>
                     </div>
                     <div id="event-date">
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -60,18 +64,25 @@
                 success: function( res ) {
                     if( gres != res ) {                        
                         gres = res
-                        res = JSON.parse( res );
-                        $( "#data" ).text( "" );
+                        res = JSON.parse( res );    
+                        $( "#data" ).html("");
+                        if(res.data.length == 0){
+                            $('#data').append(
+                                '<tr><td colspan="4" align="center">Wow, much empty</td></tr>'
+                            );
+                        } else {
                         res.data.forEach( cur => {
                             $( "#data" ).append( `
                                 <tr class="emp" data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
                                     <td id="eventid" hidden>${ cur.id }</td>
-                                    <td max="12">${ cur.ename }</td>
+                                    <td max="12">${ cur.ename.replace(/\\/g,'') }</td>
                                     <td>${ cur.edate }</td>
                                     <td>${ cur.status }</td>
                                 </tr>
                             `);
+                            console.log(res)
                         });
+                        }
                     }
                 }
             });
@@ -79,7 +90,6 @@
 
         function eventid(){
             var masaya = $('#id').val()
-            $('.modal-body').html('')
             $.ajax({
                 type: "get",
                 url: "/dashgetinfo",
@@ -89,7 +99,8 @@
                 success: function (res) {
                     res = JSON.parse(res)
                     res.forEach(cur =>{
-                        $('#event-name').html(cur.name)
+                        $('#event-name').html(cur.name.replace(/\\/g,''))
+                        $('#event-desc-input').val(cur.desc.replace(/\\/g,''))
                     })
                 }
             });

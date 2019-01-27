@@ -25,17 +25,24 @@
                               </div>
                               <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
+                                <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
-                               <textarea name="epart" id="epart" rows="3" style="resize:none;" class="form-control"></textarea>
+                               <input name="epart" type="text" id="epart" rows="3" style="resize:none;" class="form-control" value="{{ $data->fname }}">
+                            <input type="hidden" name="epartid" id="epartid" value="{{ $data->}}">
                             </div>
                             <div class="input-group mb-3">
-                                <input type="date" name="date" id="date" class="form-control" value="{{ $data->date }}">
-                                    <input type="time" name="stime" id="stime" class="form-control" value="{{ $data->start_time }}">
-                                </div>
-                                <div class="input-group mb-3">
-                                        <input type="time" name="etime" id="etime" class="form-control" value="{{ $data->end_time }}">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
                                     </div>
+                                <input type="date" name="date" id="date" class="form-control" value="{{ $data->date }}">
+                            </div>  
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
+                                </div>
+                                <input type="time" name="stime" id="stime" class="form-control" value="{{ $data->start_time }}">
+                                <input type="time" name="etime" id="etime" class="form-control" value="{{ $data->end_time }}">
+                            </div>
                         <legend class="ml-0 text-light">Repeat</legend>
                         <div class="mb-3">
                             <div class="form-check-inline">

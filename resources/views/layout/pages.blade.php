@@ -10,11 +10,9 @@
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
-<link rel="stylesheet" href="{{asset('css/bootstrap-tokenfield.min.css')}}">
 <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
 <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-tokenfield.min.js')}}"></script>
 <script src="{{asset('js/jquery.form.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>

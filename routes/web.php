@@ -23,7 +23,8 @@ Route::post( "/fetchpost", "PagesController@FetchPost" );
 Route::get('/dashgetinfo', 'PagesController@info');
 Route::get("/tokenfieldget","PagesController@tokenfieldget");
 Route::get('/appointments', 'PagesController@Events');
-Route::get('/user','PagesController@User');
+Route::get('/user', 'PagesController@User');
+Route::post('user', 'PagesController@UserPost');
 Route::get('/login', 'PagesController@Login');
 Route::post('/login', 'PagesController@LoginPost');
 Route::get('/appointments/add', 'PagesController@Add');
@@ -35,3 +36,6 @@ Route::get("/getsent", "PagesController@GetSent");
 Route::get('/signup', 'PagesController@SignUp');
 Route::post( "/signup", "PagesController@SignUpPost" );
 Route::get('/logout', 'PagesController@Logout');
+Route::get('/bobo', function(){
+    return view("pages.bobo");
+});

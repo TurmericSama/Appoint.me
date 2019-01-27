@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('uname');
             $table->string('password');
 	        $table->string("fname");
-	        $table->string("lname");
             $table->string("facebook_id")->nullable();
             $table->rememberToken();
             $table->timestamps();
