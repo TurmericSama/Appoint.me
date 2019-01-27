@@ -70,17 +70,19 @@
                             $('#data').append(
                                 '<tr><td colspan="4" align="center">Wow, much empty</td></tr>'
                             );
-                        }
+                        } else {
                         res.data.forEach( cur => {
                             $( "#data" ).append( `
                                 <tr class="emp" data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
                                     <td id="eventid" hidden>${ cur.id }</td>
-                                    <td max="12">${ cur.ename }</td>
+                                    <td max="12">${ cur.ename.replace(/\\/g,'') }</td>
                                     <td>${ cur.edate }</td>
                                     <td>${ cur.status }</td>
                                 </tr>
                             `);
+                            console.log(res)
                         });
+                        }
                     }
                 }
             });
@@ -97,8 +99,8 @@
                 success: function (res) {
                     res = JSON.parse(res)
                     res.forEach(cur =>{
-                        $('#event-name').html(cur.name)
-                        $('#event-desc-input').val(cur.desc)
+                        $('#event-name').html(cur.name.replace(/\\/g,''))
+                        $('#event-desc-input').val(cur.desc.replace(/\\/g,''))
                     })
                 }
             });

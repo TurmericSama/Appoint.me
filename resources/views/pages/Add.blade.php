@@ -23,26 +23,27 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Event Description</span>
                             </div>
-                            <textarea name="edesc" id="edesc" cols="30" rows="5" class="form-control" style="resize:none;"></textarea>
+                            <textarea name="edesc" id="edesc" cols="30" rows="5" class="form-control" style="resize:none;" placeholder="The event will feature recent developments to the company's growth"></textarea>
                         </div>
                         <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
-                               <input type="text" name="epart" id="epart" placeholder="Participants">
+                               <input type="text" name="epart" id="epart" class="form-control" placeholder="Participants">
+                               <input type="hidden" name="epartid" id="epartid">
                             </div>
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
                             </div>
-                            <input type="date" name="date" id="date" class="form-control col-2">
+                            <input type="date" name="date" id="date" class="form-control">
                         </div>
                         <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
                                 </div>
-                               <input type="time" name="stime" id="stime" class="form-control col-2">
-                               <input type="time" name="etime" id="etime" class="form-control col-2">
+                               <input type="time" name="stime" id="stime" class="form-control">
+                               <input type="time" name="etime" id="etime" class="form-control">
                             </div>
                         <legend class="text-light">Repeat</legend>
                         <div class="mb-3">
@@ -86,7 +87,7 @@
                 if( res.success == 1 )
                     toastr.success('Event creation successful');
                 else
-                    toastr.danger('Something went wrong');
+                    toastr.warning('Something went wrong');
             }
         })
 
@@ -102,8 +103,6 @@
                 neym = $('#epart').val()
                 neym = split( neym )
                 neym = neym[ neym.length -1]
-                console.log( neym)
-                console.log( $('#epart').val())
                 $.ajax({
                     type: "get",
                     url: "/tokenfieldget",
@@ -112,11 +111,14 @@
                     },
                     success: function (response) {
                         response = JSON.parse(response)
-                        arr = [] 
-                        response.forEach(cur => {
-                            arr.push( cur.fname)
-                        });
-                        res( $.ui.autocomplete.filter( arr, extractLast( req.term ) ) )    
+                        source = []
+                        arr = {}
+                        for (let i = 0; i < response.length; i++) {
+                            source.push( response[i].label);
+                            arr[response[i].label] = response[i].value;
+                        } 
+                        res( $.ui.autocomplete.filter( source, extractLast( req.term ) ) )
+                        console.log(source)    
                     }
                 });
             },
@@ -125,14 +127,17 @@
             return false;
             },
             select: function (event, ui){
+                $('#epartid').val( function(){
+                    return this.value + arr[ui.item.label] + ",";
+                });
                 var terms = split( this.value );
                 // remove the current input
                 terms.pop();
                 // add the selected item
-                terms.push( ui.item.value );
+                terms.push( ui.item.label );
                 // add placeholder to get the comma-and-space at the end
                 terms.push( "" );
-                this.value = terms.join( ", " );
+                this.value = terms.join( "," );
                 return false;
             }
         });
