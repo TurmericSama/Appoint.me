@@ -24,11 +24,13 @@ class PagesController extends Controller
                 a.repeat!=\"Ended\" and
                 time( now() )>=a.start_time and
                 time( now() )<=a.end_time and
+
                 a.date>=date( now() ) left join
                 guests c
                     on
-                        c.appointment_id=a.appointment_id and
-                        if( c.user_id is not null, c.user_id, a.creator )=b.user_id
+                        c.appointment_id=a.appointment_id
+            where
+                if( c.user_id is not null, c.user_id, a.creator )=b.user_id                        
         ";
         $data = json_encode( DB::select( $query ) );
         echo $data;
@@ -48,9 +50,11 @@ class PagesController extends Controller
                 "uid" => $x->user_id,
                 "aid" => $x->appointment_id
             ];
+
             array_push( $ret, $t );
         }
-        echo json_encode( [ "sent" => $ret, "csrf_token" => csrf_token() ] );
+
+        echo json_encode( $ret );
     }
 
     public function FetchPost( Request $req ) {
@@ -233,7 +237,8 @@ class PagesController extends Controller
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
         $epart = addslashes($req->epart);
-        $epart = explode( ", ", $epart );
+        if( $epart )
+            $epart = explode( ", ", $epart );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -269,14 +274,15 @@ class PagesController extends Controller
             "repeat" => $repeat
         ]);
         if( $id ) {
-            foreach( $epart as $x ) {
-                $x = addslashes( $x );
-                $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
-                DB::table( "guests" )->insert([
-                    "appointment_id" => $id,
-                    "user_id" => $uid,
-                    "for_date" => date('Y-m-d')
-                ]);
+            if( $epart ) {
+                foreach( $epart as $x ) {
+                    $x = addslashes( $x );
+                    $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
+                    DB::table( "guests" )->insert([
+                        "appointment_id" => $id,
+                        "user_id" => $uid
+                    ]);
+                }
             }
             $success = 1;
         }
