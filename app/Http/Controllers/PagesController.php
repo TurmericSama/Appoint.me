@@ -296,14 +296,8 @@ class PagesController extends Controller
         $date = addslashes( $req->date );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
-<<<<<<< HEAD
-        $epart = addslashes($req->epart);
-        if( $epart )
-            $epart = explode( ", ", $epart );
-=======
         $epartid = addslashes($req->epartid );
         $epartid = explode( ",", $epartid );
->>>>>>> refs/remotes/origin/master
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -319,16 +313,6 @@ class PagesController extends Controller
             "repeat" => $repeat
         ]);
         if( $id ) {
-<<<<<<< HEAD
-            if( $epart ) {
-                foreach( $epart as $x ) {
-                    $x = addslashes( $x );
-                    $uid = DB::select( "select user_id from users where concat( fname, \" \", lname )=\"$x\"" )[0]->user_id;
-                    DB::table( "guests" )->insert([
-                        "appointment_id" => $id,
-                        "user_id" => $uid
-                    ]);
-=======
             foreach( $epartid as $x ) {
                 if( !intval($x) ) {
                     continue;  
@@ -345,7 +329,6 @@ class PagesController extends Controller
                     $success = 1;
                 } else{
                     $success = 0;
->>>>>>> refs/remotes/origin/master
                 }
             }
         }
