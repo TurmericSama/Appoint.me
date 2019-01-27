@@ -303,6 +303,7 @@ class PagesController extends Controller
             $repeat = $req->repeatwhen;
   
         $success = 0;
+        $error = "None";
         $id = DB::table( "appointments" )->insertGetId([
             "creator" => $creator,
             "name" => $ename,
@@ -313,33 +314,51 @@ class PagesController extends Controller
             "repeat" => $repeat
         ]);
         if( $id ) {
-            foreach( $epartid as $x ) {
-                if( !intval($x) ) {
-                    continue;  
+            if( $epartid[0] ) {
+                foreach( $epartid as $x ) {
+                    if( !intval($x) ) {
+                        continue;  
+                    }
+                    $x = addslashes( $x );
+                    $query = DB::table('users')->where('user_id', $x)->count();
+                    if( $query ){
+                        DB::table( "guests" )->insert([
+                            "appointment_id" => $id,
+                            "user_id" => $x,
+                            "for_date" => date('Y-m-d'),
+                            "created_at" => now()
+                        ]);
+                        $success = 1;
+                    } else {
+                        $error = $query;
+                    }
                 }
-                $x = addslashes( $x );
-                $query = DB::table('users')->where('user_id', $x)->count();
-                if( $query ){
-                    DB::table( "guests" )->insert([
-                        "appointment_id" => $id,
-                        "user_id" => $x,
-                        "for_date" => date('Y-m-d'),
-                        "created_at" => now()
-                    ]);
-                    $success = 1;
-                } else{
-                    $success = 0;
-                }
+            } else {
+                $success = 1;
             }
         }
-        $json = [ "success" => $success ];
+        $json = [ "success" => $success, "error" => $error ];
         echo json_encode( $json );
     }
 
     public function Edit( Request $req ) {
         $id = addslashes( $req->id );
-        $query = "select a.*, g.user_id, u.fname from appointments a join guests g on a.appointment_id = g.appointment_id join users u on g.user_id = u.user_id
-        where a.appointment_id=$id";
+        $query = "
+            select
+                a.*,
+                b.*,
+                c.*
+            from
+                appointments a left join
+                (
+                    guests b join
+                    users c
+                )
+            on
+                a.appointment_id=$id and
+                a.appointment_id=b.appointment_id and
+                b.user_id=c.user_id
+        ";
 
         $data = DB::select( $query )[0];
         return view( "pages.Edit", [

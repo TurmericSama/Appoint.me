@@ -28,7 +28,7 @@
                                 <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
                                 </div>
                                <input name="epart" type="text" id="epart" rows="3" style="resize:none;" class="form-control" value="{{ $data->fname }}">
-                            <input type="hidden" name="epartid" id="epartid" value="{{ $data->}}">
+                            <input type="hidden" name="epartid" id="epartid" value="{{ $data->user_id }}">
                             </div>
                             <div class="input-group mb-3">
                                     <div class="input-group-prepend">
