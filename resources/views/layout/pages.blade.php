@@ -40,16 +40,9 @@
                             <a class="dropdown-item" href="/appointments">My Appointments</a>
                         </div>
                 </li>
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle user" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
-                    </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/user">Profile</a>
-                            <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="/logout">Logout</a>
-                            </div>
-                </div>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link text-danger">Logout</a>
+                </li>
             </ul>
         </div>
     </nav>

@@ -13,8 +13,9 @@ class PagesController extends Controller
     }
 
     public function tokenfieldget( Request $req ){
+        $uid = $req->session()->get( "user" )->user_id;
         $var = $req->name;
-        $data = json_encode( DB::select("select fname as label, user_id as value from users where fname like \"%$var%\""));
+        $data = json_encode( DB::select("select fname as label, user_id as value from users where fname like \"%$var%\" and user_id != $uid"));
         echo $data;
     }
     
@@ -83,50 +84,7 @@ class PagesController extends Controller
 
     public function DashFetch( Request $req ) {
         $uid = $req->session()->get( "user" )->user_id;
-        $query = "
-            select
-                b.*,
-                if (
-                    ( 
-                        (
-                            b.repeat=\"None\" and
-                            b.date=date( now() )
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Daily\" and
-                            date( now() )>=b.date
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Weekly\" and
-                            datediff( b.date, date( now() ) ) % 7=0
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Monthly\" and
-                            (
-                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                            )=day( date( now() ) )
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ), \"Ongoing\", \"Upcoming\" ) as status                 
-            from
-                appointments b left join
-                guests a
-            on
-                ( a.user_id=$uid and a.appointment_id=b.appointment_id ) or b.creator=$uid where b.creator = $uid or a.id = $uid
+        $query = " select * from appointments where (`repeat` != \"deleted\") and date = now()
         ";
 
         $tdata = DB::select( $query );
@@ -153,49 +111,7 @@ class PagesController extends Controller
     public function EventsFetch( Request $req ) {
         $id = $req->session()->get( "user" )->user_id;
         $query = "
-            select
-                b.*,
-                if (
-                    ( 
-                        (
-                            b.repeat=\"None\" and
-                            b.date=date( now() )
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Daily\" and
-                            date( now() )>=b.date
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Weekly\" and
-                            datediff( b.date, date( now() ) ) % 7=0
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ) or (
-                        (
-                            b.repeat=\"Monthly\" and
-                            (
-                                if( day( b.date ) > day( date( now() ) ), last_day( day( date( now() ) ) ), day( b.date ) )
-                            )=day( date( now() ) )
-                        ) and (
-                            time( now() )>=b.start_time and
-                            time( now() )<=b.end_time
-                        )
-                    ), \"Ongoing\", \"Upcoming\" ) as status                 
-            from
-                appointments b
-            where
-                b.creator=$id
-        ";
+        select * from appointments where creator = $id and `repeat` != \"deleted\"";
         $data = json_encode( DB::select( $query ) );
         echo $data;
     }
@@ -344,25 +260,22 @@ class PagesController extends Controller
     public function Edit( Request $req ) {
         $id = addslashes( $req->id );
         $query = "
-            select
-                a.*,
-                b.*,
-                c.*
-            from
-                appointments a left join
-                (
-                    guests b join
-                    users c
-                )
-            on
-                a.appointment_id=$id and
-                a.appointment_id=b.appointment_id and
-                b.user_id=c.user_id
+        select a.appointment_id, a.name, a.desc, a.date, a.start_time, a.end_time, a.repeat, b.user_id,c.fname from appointments a left join guests b on a.appointment_id = b.appointment_id join users c on b.user_id = c.user_id where a.appointment_id = $id
         ";
-
-        $data = DB::select( $query )[0];
+        $fname = "";
+        $id = "";
+        $data = DB::select( $query );
+        foreach( $data as $info){
+            if( $info->fname == null){ 
+            } else{
+                $fname .= $info->fname.",";
+                $id .= $info->user_id.",";
+            }
+        }
         return view( "pages.Edit", [
-            "data" => $data
+            "data" => $data[0],
+            "fname" => $fname,
+            "id" => $id
         ]);
     }
 
@@ -402,11 +315,10 @@ class PagesController extends Controller
 
     public function Delete( Request $req ) {
         $id = addslashes( $req->id );
-
-        $query = "delete from appointments where appointment_id=$id";
+        $query = "update appointments set repeat = \"deleted\" where appointment_id=$id";
         $success = 0;
 
-        if( DB::delete( $query ) )
+        if( DB::update( $query ) )
             $success = 1;
         $json = [ "success" => $success ];
         echo json_encode( $json );
