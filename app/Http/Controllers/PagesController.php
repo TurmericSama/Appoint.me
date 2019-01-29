@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-$sent = [];
 
 class PagesController extends Controller
 {
@@ -12,7 +11,7 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch", "FetchPost", "GetSent" );
     }
 
-    public function tokenfieldget( Request $req ){
+    public function tokenfieldget( Request $req ) {
         $var = $req->name;
         $data = json_encode( DB::select("select fname as label, user_id as value from users where fname like \"%$var%\""));
         echo $data;
