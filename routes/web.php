@@ -15,6 +15,8 @@ Route::get('/', function () {
     return redirect( "/login" );
 });
 
+Route::get( "/addperson", "PagesController@AddPerson");
+Route::post( "/addperson", "PagesController@AddPersonPost");
 Route::get('/dash', 'PagesController@Dash' );
 Route::get( "/dashfetch", "PagesController@DashFetch" );
 Route::get( "/eventsfetch", "PagesController@EventsFetch" );
@@ -23,8 +25,6 @@ Route::post( "/fetchpost", "PagesController@FetchPost" );
 Route::get('/dashgetinfo', 'PagesController@info');
 Route::get("/tokenfieldget","PagesController@tokenfieldget");
 Route::get('/appointments', 'PagesController@Events');
-Route::get('/user', 'PagesController@User');
-Route::post('user', 'PagesController@UserPost');
 Route::get('/login', 'PagesController@Login');
 Route::post('/login', 'PagesController@LoginPost');
 Route::get('/appointments/add', 'PagesController@Add');

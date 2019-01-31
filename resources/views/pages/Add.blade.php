@@ -7,70 +7,70 @@
             <div class="col-md-1">
 
             </div>
-            <div class="col-md-11 col-sm-12 col-lg-9">
+            <div class="col-md-11 col-sm-12 col-lg-10">
                 <div class="mt-2">
                     <form id="add_event">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <h3 class="text-light ml-3 mb-3">Add an Appointment</h3>
-                    <div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Event Name</span>
-                            </div>
-                            <input type="text" class="form-control" name="ename" id="ename" placeholder="Ex.: Kalasag: 13th meetup">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Event Description</span>
-                            </div>
-                            <textarea name="edesc" id="edesc" cols="30" rows="5" class="form-control" style="resize:none;" placeholder="The event will feature recent developments to the company's growth"></textarea>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Participants</span>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <h2 class="text-white ml-3 mb-3">Add an Appointment</h2>
+                    {{--first form row--}}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-alternative mb-3" id="ename" placeholder="Event Name: ">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-alternative" id="epart" placeholder="Participants:  John Doe,Emma Watson,">
+                                    <input type="hidden" name="epartid" id="epartid">
                                 </div>
-                               <input type="text" name="epart" id="epart" class="form-control" placeholder="Participants">
-                               <input type="hidden" name="epartid" id="epartid">
                             </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
-                            </div>
-                            <input type="date" name="date" id="date" class="form-control">
                         </div>
-                        <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">Time</span>
-                                </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <textarea name="edesc" id="edesc" rows="4" class="form-control form-control-alternative" placeholder="Event Description"></textarea>
+                            </div>
+                        </div>
+                    {{--end of first form row--}}
+                    </div>
+                    {{--second form row--}}
+                    <div class="row">
+                        <span class="text-white h3 ml-3">Date</span>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="date" class="form-control form-control-alternative" id="date" name="date">
+                            </div>
+                        </div>
+                        <span class="text-white h3">Start & End time</span>
+                        <div class="input-group col-md-7 mb-3">
                                <input type="time" name="stime" id="stime" class="form-control">
                                <input type="time" name="etime" id="etime" class="form-control">
-                            </div>
-                        <legend class="text-light">Repeat</legend>
-                        <div class="mb-3">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="repeat" id="radio1" class="custom-control-input" checked>
-                                <label for="radio1" class="custom-control-label">None</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="repeat" id="radio2" class="custom-control-input">
-                                <label for="radio2" class="custom-control-label">Repeat</label>
-                            </div>
                         </div>
-                        <div id="options" class="mb-3">
-                        <legend class="text-light">Repeat When</legend>
+                    {{--end of second form row--}}
+                    </div>
+                    <legend class="h3 text-white">Repeat</legend>
+                    <div class="mb-3 tab-content">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="repeat" id="radio1" class="custom-control-input" checked>
+                            <label for="radio1" class="custom-control-label text-white">None</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" name="repeat" id="radio2" class="custom-control-input">
+                            <label for="radio2" class="custom-control-label text-white">Repeat</label>
+                        </div>
+                    </div>
+                    <div id="options" class="mb-3">
+                        <legend class="h3 text-white">Repeat When</legend>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" name="repeatwhen" id="radio3" value="daily" class="custom-control-input">
-                            <label for="radio1" class="custom-control-label">Daily</label>
+                            <label for="radio3" class="custom-control-label text-white">Daily</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" name="repeatwhen" id="radio4" value="weekly" class="custom-control-input">
-                            <label for="radio1" class="custom-control-label">Weekly</label>
+                            <label for="radio4" class="custom-control-label text-white">Weekly</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" name="repeatwhen" id="radio5" value="monthly" class="custom-control-input">
-                            <label for="radio1" class="custom-control-label">Monthly</label>
+                            <label for="radio5" class="custom-control-label text-white">Monthly</label>
                         </div>
-                        </div>
+                    </div>
                             <input type="submit" value="Submit" class="btn btn-primary">
                     </form>
                     </div>

@@ -4,22 +4,51 @@
     <div class="container-fluid"> 
         <div class="row">
             <div class="col-md-3">
-                <div class="mt-2">
-                    <h3 class="text-light">Dashboard</h3>
+                <div class="row">
+                    <h2 class="ml-4 mb-3 text-white">Dashboard</h2>
                 </div>
+                <div class="col-md-12">
+                    <div class="card card-stats mb-4 mb-lg">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Events today</h5>
+                                    <span class="h2 font-weight-bold mb-0">di ko pa alam</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col-md-12">
+                        <div class="card card-stats mb-4 mb-lg">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Events this month</h5>
+                                        <span class="h2 font-weight-bold mb-0">di ko pa alam</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
             </div>
-            <div class="col-md-9 col-sm-9 col-lg-9">
+            <div class="col-md-9 col-sm-12 col-lg-9">
                 <input type="text" id="id" hidden>
-                <table class="table table-bordeless table-light table-hover">
-                	<th scope="col">Name</th>
-					<th scope="col">When</th>
-					<th scope="col">Status</th>
+                <table class="table align-items-center table-hover table-light mt-5">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Name</th>
+					        <th scope="col">When</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
                     <tbody id="data">
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    
 
     <div class="modal fade" id="dashmodal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -68,12 +97,12 @@
                         $( "#data" ).html("");
                         if(res.data.length == 0){
                             $('#data').append(
-                                '<tr><td colspan="4" align="center">Wow, much empty</td></tr>'
+                                '<tr data-toggle="modal" data-target="#dashmodal"><td colspan="4" align="center">Wow, much empty</td></tr>'
                             );
                         } else {
                         res.data.forEach( cur => {
                             $( "#data" ).append( `
-                                <tr class="emp" data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
+                                <tr data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
                                     <td id="eventid" hidden>${ cur.id }</td>
                                     <td max="12">${ cur.ename.replace(/\\/g,'') }</td>
                                     <td>${ cur.edate }</td>
