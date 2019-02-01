@@ -11,12 +11,8 @@ class PagesController extends Controller
         $this->middleware( "auth" )->except( "Login", "SignUp", "LoginPost", "SignUpPost", "Fetch", "FetchPost", "GetSent" );
     }
 
-<<<<<<< HEAD
-    public function tokenfieldget( Request $req ) {
-=======
     public function tokenfieldget( Request $req ){
         $uid = $req->session()->get( "user" )->user_id;
->>>>>>> 36575068810922704bd0eb17e54d65ebef5567df
         $var = $req->name;
         $data = json_encode( DB::select("select fname as label, user_id as value from users where fname like \"%$var%\" and user_id != $uid"));
         echo $data;
