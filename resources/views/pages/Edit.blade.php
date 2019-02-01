@@ -12,12 +12,13 @@
                     <div class="mt-2">
                             <form id="edit_event">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="id" value="{{ $data->appointment_id }}">
                             <h2 class="text-white ml-3 mb-3">Edit Appointment</h2>
                             {{--first form row--}}
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-alternative mb-3" id="ename" placeholder="Event Name: " value="{{ $d = str_replace('\\','',$data->name)}}">
+                                        <input type="text" class="form-control form-control-alternative mb-3" id="ename" name="ename" placeholder="Event Name: " value="{{ $d = str_replace('\\','',$data->name)}}">
                                         <div class="form-group">
                                         <input type="text" class="form-control form-control-alternative" id="epart" placeholder="Participants:  John Doe,Emma Watson," value="{{$fname}}">
                                             <input type="hidden" name="epartid" id="epartid">

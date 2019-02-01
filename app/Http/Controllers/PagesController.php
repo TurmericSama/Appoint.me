@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-$sent = [];
 
 class PagesController extends Controller
 {
@@ -260,24 +259,12 @@ class PagesController extends Controller
         "end_time" => $etime,
         "repeat" => $repeat
         ]);
-        $query = "
-            update appointments
-                set
-                    `name`=\"$ename\",
-                    `desc`=\"$edesc\",
-                    `date`=\"$date\",
-                    `start_time`=\"$stime\",
-                    `end_time`=\"$etime\",
-                    `repeat`=\"$repeat\"
-                where
-                    appointment_id=$id
-        ";
 
         $success = 0;
-        if( DB::update( $query ) )
-            $success = 1;
+        if( $query == 1 )
+           $success = 1;
         $json = [ "success" => $success ];
-        echo json_encode( $json );  
+        echo json_encode( $json );
     }
 
     public function Delete( Request $req ) {
