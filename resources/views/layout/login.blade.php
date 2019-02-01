@@ -4,43 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('css/style.css')}}">
-<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/popper.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/nucleo.css')}}">
+    <link rel="stylesheet" href="{{asset('css/argon.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"> --}}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.min.css')}}">
+
+
+    <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('js/jquery.form.js')}}"></script>
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('js/argon.min.js')}}"></script>
+    <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/toastr.min.js')}}"></script>
-<link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
     <title>Appointments</title>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-        <a style="color:green;" class="navbar-brand" href="/login">Appoint.me</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>            
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline my-2 my-lg-0" id="login_form">
-                <input type="hidden" id="token" name="_token" value="{{ csrf_token() }}">
-                <input class="form-control mr-sm-2" type="text" placeholder="Username" id="uname" name="username" required>
-                <input class="form-control mr-sm-2" type="password" placeholder="Password" id="pass" name="password" required>
-                <button class="btn btn-outline-success my-2 my-sm-0">Login</button>
-                <button class="btn btn-outline-primary my-2 my-sm-0 ml-2" onclick="javascript: window.location='/signup'">Signup</button>
-            </form>
-        </div>
-    </nav>
+<body class="bg-gradient-primary">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-12 col-md-12 col-sm-12 col-lg-10">
-                <div class="jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h1 class="display-1">Appointment Management System</h1>
-                        <p class="lead">Create and manage personal and group events</p>
-                        <hr class="my-2">
-                        <p class="lead">
-                        </p>
+            <div class="col-md-4 col-lg- col-sm-12 col-xs-12">
+                
+            </div>
+            <div class="col-md-4 mt-6">
+                <div class="card align-items-center" style="height:35rem;">
+                    <span class="h3 text-green mt-4">Appoint.me</span>
+                    <span class="h5 text-default mt-4">Sign in</span>
+                    <span id="divider"></span>
+                    <div class="row">
+                        <form id="login_form">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token()}}">
+                                <input type="text" class="form-control form-control-alternative" id="uname" placeholder="Username" required>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-alternative" id="pass" placeholder="Password" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Login" class="btn btn-success btn-block mt-3">
+                    </div>
+                </form>
                 </div>
+            </div>
+            <div class="col-md-4">
+                
             </div>
         </div>
     </div>
