@@ -20,38 +20,38 @@
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('js/argon.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
-<script src="{{asset('js/toastr.min.js')}}"></script>
+    <script src="{{asset('js/toastr.min.js')}}"></script>
     <title>Appointments</title>
 </head>
 <body class="bg-gradient-primary">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4 col-lg- col-sm-12 col-xs-12">
+            <div class="col-md-4">
                 
             </div>
             <div class="col-md-4 mt-6">
-                <div class="card align-items-center" style="height:35rem;">
+                <div class="card card-body align-items-center col-12">
                     <span class="h3 text-green mt-4">Appoint.me</span>
                     <span class="h5 text-default mt-4">Sign in</span>
                     <span id="divider"></span>
                     <div class="row">
                         <form id="login_form">
-                        <div class="col-md-12">
+                        <div class="col-xs-12">
                             <div class="form-group">
-                            <input type="hidden" name="_token" id="token" value="{{ csrf_token()}}">
-                                <input type="text" class="form-control form-control-alternative" id="uname" placeholder="Username" required>
+                            <input type="hidden" name="_token" id="_token" value="{{ csrf_token()}}">
+                                <input type="text" class="form-control form-control-alternative col" id="username" name="username" placeholder="Username" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-alternative" id="pass" placeholder="Password" required>
+                                <input type="password" class="form-control form-control-alternative" id="password" name="password" placeholder="Password" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <input type="submit" value="Login" class="btn btn-success btn-block mt-3">
+                        <input type="submit" value="Login" class="btn btn-success btn-block mt-3 mb-3">
                     </div>
                 </form>
                 </div>
@@ -65,25 +65,18 @@
 </html>
 
 <script>
-    $( "#login_form" ).on( "submit", e => {
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
+    $( "#login_form" ).ajaxForm({
             url: "/login",
-            data: {
-                _token: $( "#token" ).val(),
-                username: $('#uname').val(),
-                password: $('#pass').val()    
-            }, 
-            success: function (response) {
-                response = JSON.parse( response )
-                if( response.success == 1 ){
-                    window.location = "/dash";
-                } else{
-                    toastr.warning('Wrong username or password');      
+            type: "POST",
+            success: function( res ) {
+                res = JSON.parse( res )
+                if( res.success == 1 ){
+                    toastr.success('Login Success');
+                    setTimeout(5000, window.location = "/dash");
                 }
+                else
+                    toastr.warning('Something went wrong');
             }
         });
-    })
     
 </script>

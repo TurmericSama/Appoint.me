@@ -34,17 +34,20 @@
             </div>
             <div class="col-md-9 col-sm-12 col-lg-9">
                 <input type="text" id="id" hidden>
-                <table class="table align-items-center table-hover table-light mt-5">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Name</th>
-					        <th scope="col">When</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="data">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-hover table-light mt-5">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">When</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data">
+                        </tbody>
+                    </table>
+                </div>
+                    
             </div>
         </div>
     </div>

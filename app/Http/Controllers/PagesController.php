@@ -13,7 +13,7 @@ class PagesController extends Controller
     }
 
     public function tokenfieldget( Request $req ){
-        $uid = $req->session()->get( "user" )->user_id;
+        $uid = $req->session()->get( "user" );
         $var = $req->name;
         $data = DB::table('users')->where('fname','like','%'.$var.'%')->where('user_id','!=',$uid)->select('fname as label','user_id as value')->get();
         $data = json_encode($data);
@@ -72,7 +72,6 @@ class PagesController extends Controller
 
     }
 
-    
     public function Dash( Request $req ){
         return view('pages.Dash');
     }
@@ -85,7 +84,7 @@ class PagesController extends Controller
     }
 
     public function DashFetch( Request $req ) {
-        $uid = $req->session()->get( "user" )->user_id;
+        $uid = $req->session()->get( "user" );
         $query = DB::table('appointments')->where('repeat','!=','deleted')->where('date',now())->select('name','desc','date','start_time','end_time','repeat')->get();
         $pdata = [];
         foreach( $query as $row ) {
@@ -106,7 +105,7 @@ class PagesController extends Controller
     }
 
     public function EventsFetch( Request $req ) {
-        $id = $req->session()->get( "user" )->user_id;
+        $id = $req->session()->get( "user" );
         $query = DB::table('appointments')->where('repeat','!=','deleted')->select(
         'appointment_id',
         'name',
@@ -147,16 +146,18 @@ class PagesController extends Controller
     public function LoginPost( Request $req ) {
         $uname = addslashes( $req->username );
         $passwd = addslashes( $req->password );
-        $userq = DB::table('users')->where('uname',$uname)->select('user_id','password')->get();
+        $userq = DB::table('users')->where('uname',$uname)->select('user_id','password')->first();
         $success = 0;
         if( $userq ) {
-            if( password_verify( $passwd, $userq[0]->password ) ) {
-                $req->session()->put( "user", $userq[0] );
+            if( password_verify( $passwd, $userq->password ) ) {
+                $req->session()->put( "user", $userq->user_id );
                 $success = 1;
+            } else{
+                $success = 0;
             }
         }
 
-        $json = [ "success" => $success ];
+        $json = [ "success" => $success, "user_id" => $req->user, "password" => $passwd ];
         echo json_encode( $json );
     }
 
@@ -165,7 +166,7 @@ class PagesController extends Controller
     }
 
     public function AddPost( Request $req ) {
-        $creator = $req->session()->get( "user" )->user_id;
+        $creator = $req->session()->get( "user" );
         $ename = addslashes( $req->ename );
         $edesc = addslashes( $req->edesc );
         $date = addslashes( $req->date );

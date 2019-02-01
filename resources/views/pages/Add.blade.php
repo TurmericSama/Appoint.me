@@ -71,7 +71,7 @@
                             <label for="radio5" class="custom-control-label text-white">Monthly</label>
                         </div>
                     </div>
-                            <input type="submit" value="Submit" class="btn btn-primary">
+                            <input type="submit" value="Submit" class="btn btn-primary mb-4">
                     </form>
                     </div>
                 </div>

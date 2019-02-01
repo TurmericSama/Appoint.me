@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="submit" value="Add Person" class="btn btn-primary btn-block col-md-6">
+                    <input type="submit" value="Add Person" class="btn btn-primary btn-block col-md-6 mb-3">
                 </form>
             </div>
         </div>

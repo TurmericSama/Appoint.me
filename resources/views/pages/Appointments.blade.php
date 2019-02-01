@@ -8,6 +8,7 @@
                 <div>
                     <h2 class="text-white mt-2">Appointments</h2>
                 </div>
+            <div class="table-responsive">
                 <table class="table table-light table-hover">
                     <thead class="thead-light">
                         <th scope="col">Name</th>
@@ -19,6 +20,7 @@
                 		
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>
