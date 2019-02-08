@@ -14,7 +14,14 @@ class PagesController extends Controller
     public function tokenfieldget( Request $req ){
         $uid = $req->session()->get( "user" );
         $var = $req->name;
-        $data = DB::table('users')->where('fname','like','%'.$var.'%')->where('user_id','!=',$uid)->select('fname as label','user_id as value')->get();
+        $data = 
+            DB::table('users')
+                ->where('fname','like','%'.$var.'%')
+                ->where('user_id','!=',$uid)
+            ->select(
+                'fname as label',
+                'user_id as value'
+            )->get();
         $data = json_encode($data);
         echo $data;
     }
@@ -34,7 +41,6 @@ class PagesController extends Controller
                 a.repeat!=\"Ended\" and
                 time( now() )>=a.start_time and
                 time( now() )<=a.end_time and
-
                 a.date>=date( now() ) left join
                 guests c
                     on
@@ -84,13 +90,27 @@ class PagesController extends Controller
 
     public function DashFetch( Request $req ) {
         $uid = $req->session()->get( "user" );
-        $query = DB::table('appointments')->where('repeat','!=','deleted')->where('date',now())->select('name','desc','date','start_time','end_time','repeat')->get();
+        $query = 
+            DB::table('appointments')
+                ->where( 'repeat', '!=', 'deleted' )
+                ->where( 'date', '<=', 'date( now() )' )
+            ->select(
+                'appointment_id',
+                'name',
+                'date',
+                'start_time',
+                'end_time',
+                'repeat'
+            )->get();
         $pdata = [];
         foreach( $query as $row ) {
             $arr = [
                 "id" => $row->appointment_id,
                 "ename" => $row->name,
-                "edate" => $row->date
+                "edate" => $row->date,
+                "start_time" => $row->start_time,
+                "end_time" => $row->end_time,
+                "repeat" => $row->repeat
             ];
             array_push( $pdata, $arr );
         }
@@ -105,15 +125,19 @@ class PagesController extends Controller
 
     public function EventsFetch( Request $req ) {
         $id = $req->session()->get( "user" );
-        $query = DB::table('appointments')->where('repeat','!=','deleted')->select(
-        'appointment_id',
-        'name',
-        'desc',
-        'date',
-        'start_time',
-        'end_time',
-        'repeat'
-    )->get();
+        $query = 
+            DB::table('appointments')
+                ->where( 'repeat','!=','deleted' )
+                ->where( 'creator', '=', $id )
+            ->select(
+                'appointment_id',
+                'name',
+                'desc',
+                'date',
+                'start_time',
+                'end_time',
+                'repeat'
+            )->get();
         $data = json_encode($query);
         echo $data;
     }
@@ -122,7 +146,7 @@ class PagesController extends Controller
         return view('pages.AddUser');
     }
 
-    public function AddPersonPost( Request $req ){
+    public function AddPersonPost( Request $req ) {
         $fname = $req->fname;
         $lname = $req->lname;
         $fname = $fname." ".$lname;
@@ -252,12 +276,13 @@ class PagesController extends Controller
         if( $req->repeat != "None" )
             $repeat = addslashes( $req->repeatwhen );
 
-        $query = DB::table('appointments')->where('appointment_id', $id)->update(["name" => $ename, 
-        "desc" => $edesc, 
-        "date" => $date, 
-        "start_time" => $stime, 
-        "end_time" => $etime,
-        "repeat" => $repeat
+        $query = DB::table('appointments')->where('appointment_id', $id)->update([
+            "name" => $ename,
+            "desc" => $edesc, 
+            "date" => $date, 
+            "start_time" => $stime, 
+            "end_time" => $etime,
+            "repeat" => $repeat
         ]);
 
         $success = 0;

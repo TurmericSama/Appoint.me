@@ -1,15 +1,19 @@
-select
-                a.*,
-                b.*
-            from
-                appointments a join
-                users b
-            on
-                a.repeat!="Ended" and
-                time( now() )>=a.start_time and
-                time( now() )<=a.end_time and
-                a.date>=date( now() ) left join
-                guests c
-                    on
-                        c.appointment_id=a.appointment_id and
-                        if( c.user_id is not null, c.user_id, a.creator )=b.user_id
+select 
+    a.appointment_id, 
+    a.name, 
+    a.desc, 
+    a.date, 
+    a.start_time, 
+    a.end_time, 
+    a.repeat, 
+    b.user_id,
+    b.fname 
+from
+    ( 
+        appointments a join
+        users b
+    ) left join guests c
+on 
+    a.appointment_id = 5 and
+    a.appointment_id = c.appointment_id and
+    b.user_id=if( c.user_id is not null, c.user_id, a.creator )

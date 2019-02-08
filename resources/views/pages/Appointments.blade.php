@@ -14,7 +14,7 @@
                         <th scope="col">Name</th>
 					    <th scope="col">When</th>
 					    <th scope="col">Status</th>
-                	    <th></th>
+                	    <th scope="col">Action</th>
                     </thead>
                     <tbody id="data">
                 		

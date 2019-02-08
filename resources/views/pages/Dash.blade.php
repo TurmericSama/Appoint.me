@@ -103,24 +103,86 @@
                                 '<tr data-toggle="modal" data-target="#dashmodal"><td colspan="4" align="center">Wow, much empty</td></tr>'
                             );
                         } else {
-                        res.data.forEach( cur => {
-                            $( "#data" ).append( `
-                                <tr data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
-                                    <td id="eventid" hidden>${ cur.id }</td>
-                                    <td max="12">${ cur.ename.replace(/\\/g,'') }</td>
-                                    <td>${ cur.edate }</td>
-                                    <td>${ cur.status }</td>
-                                </tr>
-                            `);
-                            console.log(res)
-                        });
+                            d = new Date()
+                            start_time = new Date()
+                            end_time = new Date()
+                            res.data.forEach( cur => {
+                                status = "Upcoming"
+                                stime = cur.start_time.split( ":" )
+                                etime = cur.end_time.split( ":" )
+                                start_time.setHours( stime[0] )
+                                start_time.setMinutes( stime[1] )
+                                start_time.setSeconds( 0 )
+                                end_time.setHours( etime[0] )
+                                end_time.setMinutes( stime[1] )
+                                end_time.setSeconds( 0 )
+                                cur_date = new Date( cur.edate )                           
+                                switch( cur.repeat ) {
+                                    case "None": {    
+                                        console.log( "inside none" )
+                                        if( cur_date >= d && cur_date <= d ) {
+                                            if( start_time >= d && end_time <= d )
+                                                status = "Ongoing"
+                                        } else if( d > cur_date )
+                                            status = "Ended"
+                                        break
+                                    }
+                                    case "Daily": {                                        
+                                        if( cur_date >= d ) {
+                                            if( d >= start_time && d <= end_time )
+                                                status = "Ongoing"
+                                        }
+                                        break
+                                    } 
+                                    case "Weekly": {       
+                                        console.log( "inside weekly" )
+                                        if( d >= cur.date ) {
+                                            if( ( date_diff( d, cur_date ) % 7 == 0 || ( cur_date >= d && cur_date <= d ) ) && ( time >= start_time && time <= end_time ) )
+                                                status = "Ongoing"
+                                        }
+                                        break
+                                    } 
+                                    case "Monthly": {                                
+                                        console.log( "inside monthly" )
+                                        if( d >= cur.date ) {
+                                            if( count_of_days( d.getMonth() ) < count_of_days( cur_date.getMonth() ) ) {
+                                                if( d.getDate() == count_of_days( d.getMonth() ) ) {
+                                                    if( time >= start_time && time <= end_time )
+                                                        status = "Ongoing"
+                                                }
+                                            } else if( d.getDate() == cur_date.getDate() )
+                                                status = "Ongoing"
+                                        }
+                                        break
+                                    }
+                                }
+                                
+                                $( "#data" ).append(`
+                                    <tr data-toggle="modal" data-target="#dashmodal" onclick="document.getElementById('id').value = $(this).find('#eventid').text(); eventid();">
+                                        <td id="eventid" hidden>${ cur.id }</td>
+                                        <td max="12">${ cur.ename.replace(/\\/g,'') }</td>
+                                        <td>${ cur.edate }</td>
+                                        <td>${ status }</td>
+                                    </tr>
+                                `);
+                            });
                         }
                     }
                 }
             });
         }
 
-        function eventid(){
+        function date_diff( x, y ) {
+            z = x - y
+            return Math.floor( ( ( z / 60000 ) / 60 ) / 24 )
+        }
+
+        function count_of_days( x ) {
+            var now = new Date();
+            return new Date( now.getFullYear(), x + 1, 0 ).getDate();
+        }
+
+        function eventid() {
             var masaya = $('#id').val()
             $.ajax({
                 type: "get",
