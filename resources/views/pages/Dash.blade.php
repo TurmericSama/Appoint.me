@@ -118,8 +118,7 @@
                                 end_time.setSeconds( 0 )
                                 cur_date = new Date( cur.edate )                           
                                 switch( cur.repeat ) {
-                                    case "None": {    
-                                        console.log( "inside none" )
+                                    case "None": {                                            
                                         if( cur_date >= d && cur_date <= d ) {
                                             if( start_time >= d && end_time <= d )
                                                 status = "Ongoing"
@@ -134,16 +133,14 @@
                                         }
                                         break
                                     } 
-                                    case "Weekly": {       
-                                        console.log( "inside weekly" )
+                                    case "Weekly": {
                                         if( d >= cur.date ) {
                                             if( ( date_diff( d, cur_date ) % 7 == 0 || ( cur_date >= d && cur_date <= d ) ) && ( time >= start_time && time <= end_time ) )
                                                 status = "Ongoing"
                                         }
                                         break
                                     } 
-                                    case "Monthly": {                                
-                                        console.log( "inside monthly" )
+                                    case "Monthly": {
                                         if( d >= cur.date ) {
                                             if( count_of_days( d.getMonth() ) < count_of_days( cur_date.getMonth() ) ) {
                                                 if( d.getDate() == count_of_days( d.getMonth() ) ) {
