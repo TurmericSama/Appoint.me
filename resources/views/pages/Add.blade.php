@@ -126,9 +126,6 @@
             return false;
             },
             select: function (event, ui){
-                $('#epartid').val( function(){
-                    return this.value + arr[ui.item.label] + ",";
-                });
                 var terms = split( this.value );
                 // remove the current input
                 terms.pop();

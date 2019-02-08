@@ -195,8 +195,8 @@ class PagesController extends Controller
         $date = addslashes( $req->date );
         $stime = addslashes( $req->stime );
         $etime = addslashes( $req->etime );
-        $epartid = addslashes($req->epartid );
-        $epartid = explode( ",", $epartid );
+        $epart = addslashes($req->epart );
+        $epart = explode( ",", $epart );
         $repeat = "None";
         if( $req->repeatwhen )
             $repeat = $req->repeatwhen;
@@ -223,7 +223,7 @@ class PagesController extends Controller
                     if( $query ){
                         DB::table( "guests" )->insert([
                             "appointment_id" => $id,
-                            "user_id" => $x,
+                            "user_id" => "( select user_id from users where fname=\"$x\" )",
                             "for_date" => date('Y-m-d'),
                             "created_at" => now()
                         ]);

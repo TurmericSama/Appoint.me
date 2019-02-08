@@ -147,8 +147,10 @@
                                                     if( time >= start_time && time <= end_time )
                                                         status = "Ongoing"
                                                 }
-                                            } else if( d.getDate() == cur_date.getDate() )
-                                                status = "Ongoing"
+                                            } else if( d.getDate() == cur_date.getDate() ) {
+                                                if( time >= start_time && time <= end_time )
+                                                    status = "Ongoing"
+                                            }
                                         }
                                         break
                                     }
